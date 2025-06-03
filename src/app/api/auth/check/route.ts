@@ -1,74 +1,55 @@
-import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-import type { NextRequest } from 'next/server';
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
   try {
     console.log("AUTH-CHECK: Checking authentication status");
-    
-    // Initialize Supabase client with admin privileges for direct DB access
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-    const supabaseAdmin = createClient(
-      supabaseUrl,
-      process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY!
-    );
-    
-    // Initialize Supabase Auth client with cookies
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        auth: {
-          persistSession: false
-        }
-      }
-    );
-    
-    // Get cookies to check
-    const cookies: Record<string, string> = {};
+
+    // Extract cookies from the request
     const cookieStore = request.cookies;
-    
-    // In Next.js 13+, we need to use getAll() instead of entries()
     const cookieList = cookieStore.getAll();
+    const cookies: Record<string, string> = {};
     for (const cookie of cookieList) {
       cookies[cookie.name] = cookie.value;
     }
-    
-    // Attempt to manually create a session from cookies
-    let userId = null;
-    let accessToken = cookies['sb-access-token'];
-    
-    if (accessToken) {
-      try {
-        // Set auth cookie manually
-        const { data: sessionData, error: sessionError } = await supabase.auth.setSession({
-          access_token: accessToken,
-          refresh_token: cookies['sb-refresh-token'] || '',
-        });
-        
-        if (!sessionError && sessionData?.session) {
-          userId = sessionData.session.user.id;
-        }
-      } catch (err) {
-        console.error("Error setting session from cookies:", err);
-      }
+
+    // Forward cookies to your backend API (like /api/me)
+    // This example assumes your backend API is on the same domain and expects cookies for auth
+    const apiResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || ""}/api/me`, {
+      method: "GET",
+      headers: {
+        cookie: cookieList.map(c => `${c.name}=${c.value}`).join("; "),
+        // You can add other headers if needed
+      },
+    });
+
+    if (!apiResponse.ok) {
+      console.log("API /api/me returned error status", apiResponse.status);
+      return NextResponse.json({ authenticated: false }, { status: apiResponse.status });
     }
-    
-    // Return authentication status
+
+    const userData = await apiResponse.json();
+
+    // Customize this depending on what your /api/me returns
+    // For example, your API might return { user: {...} } or { authenticated: true, userId: ... }
+    const authenticated = Boolean(userData?.user);
+    const userId = userData?.user?.id || null;
+
     return NextResponse.json({
-      authenticated: !!userId,
-      userId: userId,
+      authenticated,
+      userId,
       cookies: {
-        hasAccessToken: !!cookies['sb-access-token'],
-        hasRefreshToken: !!cookies['sb-refresh-token'],
+        hasAccessToken: !!cookies["sb-access-token"],
+        hasRefreshToken: !!cookies["sb-refresh-token"],
         cookiesList: Object.keys(cookies),
-      }
+      },
+      userData,
     });
   } catch (error: any) {
-    console.error('Unexpected error in auth check:', error);
+    console.error("Unexpected error in auth check:", error);
     return NextResponse.json(
-      { error: 'Internal server error', message: error.message },
+      { error: "Internal server error", message: error.message },
       { status: 500 }
     );
   }
-} 
+}

@@ -7,98 +7,63 @@ import Link from "next/link";
 import { createBrowserClient } from "@supabase/ssr";
 
 export default function DashboardPage() {
-  const { user, logout, loading } = useAuth();
+  const { logout } = useAuth();
   const router = useRouter();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [userData, setUserData] = useState<any>(null);
 
-  // Directly check Supabase session
   useEffect(() => {
-    const checkSession = async () => {
+    const fetchUserData = async () => {
+      setIsLoading(true);
+      setError(null);
+
       try {
-        setIsLoading(true);
+        const res = await fetch("api/auth/me");
 
-        // Create Supabase client
-        const supabase = createBrowserClient(
-          process.env.NEXT_PUBLIC_SUPABASE_URL!,
-          process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-        );
-
-        // Check if we have a session
-        const {
-          data: { session },
-          error: sessionError,
-        } = await supabase.auth.getSession();
-
-        if (sessionError) {
-          console.error("Session error:", sessionError);
-          setError("Failed to verify your session");
-          router.push("/login");
-          return;
+        if (!res.ok) {
+          if (res.status === 401) {
+            router.push("/login");
+            return;
+          }
+          const errorData = await res.json();
+          throw new Error(errorData.error || "Failed to fetch user data");
+          console.log(data);
         }
 
-        if (!session) {
-          console.log("No session found");
-          setError("No active session found");
-          router.push("/login");
-          return;
-        }
-
-        console.log("Session found, user ID:", session.user.id);
-
-        // Get user data from profile
-        const { data: profileData, error: profileError } = await supabase
-          .from("profiles")
-          .select("*")
-          .eq("id", session.user.id)
-          .single();
-
-        if (profileError) {
-          console.error("Error fetching profile:", profileError);
-        }
-
-        setUserData({
-          id: session.user.id,
-          email: session.user.email,
-          profile: profileData || null,
-        });
-
-        setIsLoading(false);
-      } catch (err) {
-        console.error("Error checking session:", err);
-        setError("Authentication error");
+        const data = await res.json();
+        setUserData(data.user);
+        console.log(data.user);
+      } catch (err: any) {
+        setError(err.message || "An error occurred");
+      } finally {
         setIsLoading(false);
       }
     };
 
-    checkSession();
+    fetchUserData();
   }, [router]);
 
   const handleLogout = async () => {
     setIsLoggingOut(true);
     try {
-      // Create Supabase client
-      const supabase = createBrowserClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-      );
+      // Sign out using Supabase
+      // const supabase = createBrowserClient(
+      //   process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      //   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+      // );
+      // await supabase.auth.signOut();
 
-      // Sign out directly with Supabase
-      await supabase.auth.signOut();
+      // Call logout API to clear cookies/session on server
+      await fetch("/api/auth/logout", { method: "POST" });
 
-      // Also call our logout API to clear cookies
-      await fetch("/api/auth/logout", {
-        method: "POST",
-      });
-
-      // Force page refresh for clean state
       window.location.href = "/login";
-    } catch (error) {
-      console.error("Logout failed:", error);
+    } catch (err) {
+      console.error("Logout failed:", err);
       setIsLoggingOut(false);
     }
+    console.log(error);
   };
 
   if (isLoading) {
@@ -149,9 +114,7 @@ export default function DashboardPage() {
             />
           </svg>
         </div>
-        <p className="text-white/70 mb-4">
-          {error || "Authentication required"}
-        </p>
+        <p className="text-white/70 mb-4">{error || "Authentication required"}</p>
         <button
           onClick={() => router.push("/login")}
           className="px-4 py-2 bg-purple-600 rounded hover:bg-purple-700"
@@ -163,90 +126,102 @@ export default function DashboardPage() {
   }
 
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="min-h-screen bg-gray-950 text-white font-sans">
       {/* Header */}
       <header className="bg-gray-900 border-b border-gray-800">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-2">
-              <div className="h-10 flex items-center">
-                <img
-                  src="/frampapplogo.webp"
-                  alt="FRAMP Logo"
-                  className="h-8 w-auto"
-                />
-              </div>
-            </div>
-
-            <button
-              onClick={handleLogout}
-              disabled={isLoggingOut}
-              className="px-4 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 transition-colors"
-            >
-              {isLoggingOut ? "Logging out..." : "Log out"}
-            </button>
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+          <div className="flex items-center gap-3">
+            <img src="/frampapplogo.webp" alt="Logo" className="h-8" />☺
           </div>
-        </div>
+          <button
+            onClick={handleLogout}
+            disabled={isLoggingOut}
+            className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition"
+          >
+            {isLoggingOut ? "Logging out..." : "Log out"}
+          </button>
+        </div>☺
       </header>
-
+  
       {/* Dashboard Content */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="bg-gray-900/60 backdrop-blur-md p-6 rounded-xl border border-gray-800 shadow-lg">
-          <h1 className="text-2xl font-bold mb-6">Welcome to your Dashboard</h1>
-
-          <div className="mb-6">
-            <h2 className="text-lg font-semibold mb-3 text-purple-400">
-              Your Profile
-            </h2>
-            <div className="bg-gray-800/50 p-4 rounded-lg">
-              <p>
-                <span className="text-gray-400">Email:</span> {userData.email}
-              </p>
-              <p>
-                <span className="text-gray-400">Name:</span>{" "}
-                {userData.profile?.name || "Not provided"}
-              </p>
-              <p>
-                <span className="text-gray-400">Wallet Address:</span>{" "}
-                {userData.profile?.wallet_address || "Not provided"}
-              </p>
-            </div>
+      <section className="container mx-auto px-4 py-10 space-y-8">
+        {/* Greeting */}
+        <div>
+          <h2 className="text-2xl font-bold">Welcome back, {userData.profile?.email || "Investor"} 👋</h2>
+          <p className="text-gray-400 mt-1">Here's your account overview.</p>
+        </div>
+  
+        {/* Overview Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="bg-gray-900 p-5 rounded-xl border border-gray-800 shadow">
+            <p className="text-sm text-gray-400">Total Balance</p>
+            <p className="text-2xl font-semibold mt-2">$12,850.42</p>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
-              <h3 className="text-lg font-medium mb-4">Quick Actions</h3>
-              <div className="space-y-2">
-                <Link
-                  href="/dashboard/profile"
-                  className="block w-full text-center py-2 bg-purple-600 hover:bg-purple-700 rounded-md transition-colors"
-                >
-                  Edit Profile
-                </Link>
-                <Link
-                  href="/dashboard/wallet"
-                  className="block w-full text-center py-2 bg-gray-700 hover:bg-gray-600 rounded-md transition-colors"
-                >
-                  Connect Wallet
-                </Link>
-              </div>
-            </div>
-
-            <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
-              <h3 className="text-lg font-medium mb-4">Activity</h3>
-              <p className="text-gray-400 text-center py-8">
-                No recent activity
-              </p>
-            </div>
-          </div>
-
-          <div className="mt-8 pt-8 border-t border-gray-800">
-            <p className="text-sm text-gray-500 text-center">
-              This is a simple dashboard example. More features coming soon.
+          <div className="bg-gray-900 p-5 rounded-xl border border-gray-800 shadow">
+            <p className="text-sm text-gray-400">Wallet Address</p>
+            <p className="mt-2 text-purple-400 break-words">
+              {userData.profile?.wallet_address || "Not connected"}
             </p>
           </div>
+          <div className="bg-gray-900 p-5 rounded-xl border border-gray-800 shadow">
+            <p className="text-sm text-gray-400">Recent Activity</p>
+            <p className="mt-2 text-green-400">+$250.00 Deposited</p>
+          </div>
         </div>
-      </div>
+  
+        {/* Quick Links and Recent Transactions */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Quick Actions */}
+          <div className="bg-gray-900 p-6 rounded-xl border border-gray-800">
+            <h3 className="text-lg font-semibold mb-4 text-purple-400">Quick Actions</h3>
+            <div className="space-y-3">
+              <Link
+                href="/dashboard/transfer"
+                className="block w-full text-center py-2 bg-purple-600 hover:bg-purple-700 rounded-lg"
+              >
+                Transfer Funds
+              </Link>
+              <Link
+                href="/dashboard/profile"
+                className="block w-full text-center py-2 bg-gray-700 hover:bg-gray-600 rounded-lg"
+              >
+                Edit Profile
+              </Link>
+              <Link
+                href="/dashboard/wallet"
+                className="block w-full text-center py-2 bg-gray-700 hover:bg-gray-600 rounded-lg"
+              >
+                Connect Wallet
+              </Link>
+            </div>
+          </div>
+  
+          {/* Recent Transactions */}
+          <div className="bg-gray-900 p-6 rounded-xl border border-gray-800">
+            <h3 className="text-lg font-semibold mb-4 text-purple-400">Recent Transactions</h3>
+            <ul className="space-y-3">
+              <li className="flex justify-between text-sm text-gray-300">
+                <span>Payment to Alpha Bank</span>
+                <span>− $120.00</span>
+              </li>
+              <li className="flex justify-between text-sm text-gray-300">
+                <span>Salary Deposit</span>
+                <span className="text-green-400">+ $1,500.00</span>
+              </li>
+              <li className="flex justify-between text-sm text-gray-300">
+                <span>Transfer from Wallet</span>
+                <span className="text-green-400">+ $300.00</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+  
+        {/* Footer Note */}
+        <footer className="pt-10 text-center border-t border-gray-800 text-sm text-gray-500">
+          Powered by Framp Finance. Secure. Simple. Smart.
+        </footer>
+      </section>
     </main>
   );
+  
 }

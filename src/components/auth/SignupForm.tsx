@@ -16,11 +16,11 @@ export default function SignupForm() {
   const router = useRouter();
   
   // Create supabase browser client directly for better control
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
-
+  // const supabase = createBrowserClient(
+  //   process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  //   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  // );
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormError("");
@@ -58,25 +58,28 @@ export default function SignupForm() {
       if (!response.ok) {
         throw new Error(data.error || 'Signup failed');
       }
+      if (response.ok) {
+       window.location.href="/login"
+      }
       
       setDebug("Signup successful, now signing in");
       
       // Sign in the user immediately after signup
-      const { error: signInError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      // const { error: signInError } = await supabase.auth.signInWithPassword({
+      //   email,
+      //   password,
+      // });
       
-      if (signInError) {
-        console.error("Error signing in after registration:", signInError);
-        setDebug("Error signing in: " + signInError.message);
-        throw new Error('Account created but login failed. Please go to the login page.');
-      }
+      // if (signInError) {
+      //   console.error("Error signing in after registration:", signInError);
+      //   setDebug("Error signing in: " + signInError.message);
+      //   throw new Error('Account created but login failed. Please go to the login page.');
+      // }
       
-      setDebug("Login successful, redirecting to dashboard");
+      // setDebug("Login successful, redirecting to dashboard");
       
-      // Use window.location for a full page refresh to ensure state is reset
-      window.location.href = "/dashboard";
+      // // Use window.location for a full page refresh to ensure state is reset
+     
     } catch (err: any) {
       console.error("Signup error:", err);
       setFormError(err.message || "Failed to create account. Please try again.");

@@ -32,7 +32,7 @@ export default function Homepage() {
   const item = {
     hidden: { opacity: 0, y: 20 },
     show: { opacity: 1, y: 0 },
-  };
+  };  
 
   return (
     <Layout>
@@ -72,7 +72,7 @@ export default function Homepage() {
                   asChild
                   className="border-[#7b77b9]/30 hover:bg-[#7b77b9]/10 text-black dark:text-white rounded-full"
                 >
-                  <Link href="/about">Learn More</Link>
+                  <Link href="/signup">Get Started</Link>
                 </Button>
           </div>
             </motion.div>
@@ -116,7 +116,7 @@ export default function Homepage() {
             transition={{ duration: 0.5 }}
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-black dark:text-white">
-              Supercharging TradFi with Solana
+              Everyday Finance Reimagined
             </h2>
             <p className="text-lg text-black/70 dark:text-white/70">
               Seamlessly bridge your digital assets with real-world needs
@@ -139,11 +139,10 @@ export default function Homepage() {
                 <FaExchangeAlt className="text-[#7b77b9] h-5 w-5" />
               </div>
               <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">
-                On/Off Ramping
+               Off-Ramp to Fiat
               </h3>
               <p className="text-black/70 dark:text-white/70">
-                Convert between crypto and fiat currencies instantly with
-                competitive rates.
+                Withdraw stablecoins directly to your bank. Fast, no hidden charges and complaint.
               </p>
             </motion.div>
 
@@ -156,11 +155,10 @@ export default function Homepage() {
                 <RiBillFill className="text-[#7b77b9] h-5 w-5" />
               </div>
               <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">
-                Bill Payments
+                Auto-Saving Engine
               </h3>
               <p className="text-black/70 dark:text-white/70">
-                Pay essential bills directly from your wallet without third
-                parties.
+               Every time you spend or off-ramp, a small % is saved-helping you build financial discipline.
               </p>
             </motion.div>
 
@@ -173,10 +171,10 @@ export default function Homepage() {
                 <FaChartLine className="text-[#7b77b9] h-5 w-5" />
               </div>
               <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">
-                Automated Savings
+                Utility Bills Payments
               </h3>
               <p className="text-black/70 dark:text-white/70">
-                Save a percentage automatically with every transaction you make.
+                Top up airtime, pay electricity, or internet-directly from ypur crypto wallet.
               </p>
             </motion.div>
 
@@ -189,11 +187,10 @@ export default function Homepage() {
                 <FaShieldAlt className="text-[#7b77b9] h-5 w-5" />
               </div>
               <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">
-                Security First
+                User-Centered Mobile Design
               </h3>
               <p className="text-black/70 dark:text-white/70">
-                Built on Solana with bank-grade security and lightning-fast
-                transactions.
+                Built for everyday use. Clean UI, simple flows, designed for mobile-first users.
               </p>
             </motion.div>
           </motion.div>

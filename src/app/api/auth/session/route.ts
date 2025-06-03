@@ -3,10 +3,10 @@ import type { NextRequest } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
-    console.log("SESSION API: Processing session request");
+    const body = await request.json();
+    console.log("SESSION API: Raw body", body);
     
-    // Parse request body
-    const { access_token, refresh_token } = await request.json();
+    const { access_token, refresh_token } = body;
 
     // Validate required fields
     if (!access_token) {

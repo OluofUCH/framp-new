@@ -1,70 +1,37 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
-import { initiateFlutterwaveTransfer } from "@/lib/fiat/transfer";
+
+const TRIGGER_PAYOUT_API = "https://framp-backend.vercel.app/api/trigger-payout";
 
 export async function POST(req: NextRequest) {
-  const body = await req.json();
-  const { request_id } = body;
-
-  // 1. Fetch the offramp request
-  const { data, error } = await supabase
-    .from("offramp_requests")
-    .select("*")
-    .eq("id", request_id)
-    .single();
-
-  if (error || !data) {
-    return NextResponse.json({ error: "Request not found." }, { status: 404 });
-  }
-
-  if (data.fiat_disbursement_status === "success") {
-    return NextResponse.json({ error: "Already disbursed." }, { status: 400 });
-  }
-
   try {
-    // 2. Trigger transfer via Flutterwave
-    const transfer = await initiateFlutterwaveTransfer({
-      amount: data.fiat_amount,
-      account_number: data.bank_account_number,
-      bank_code: data.bank_code,
-      currency: "NGN",
-      narration: "Framp Offramp",
-    });
+    const body = await req.json();
+    const { request_id } = body;
 
-    if (transfer.status === "success") {
-      // 3. Update status
-      await supabase
-        .from("offramp_requests")
-        .update({
-          fiat_disbursement_status: "success",
-          disbursed_at: new Date().toISOString(),
-          payout_reference: transfer.data?.reference,
-        })
-        .eq("id", request_id);
-    } else {
-      // If Flutterwave transfer fails, update with error status and log
-      await supabase
-        .from("offramp_requests")
-        .update({
-          fiat_disbursement_status: "failed",
-          admin_note: "Transfer failed. Please check Flutterwave response.",
-        })
-        .eq("id", request_id);
-
-      return NextResponse.json({ error: "Transfer failed. Please check Flutterwave response." }, { status: 500 });
+    if (!request_id) {
+      return NextResponse.json({ error: "Missing request_id" }, { status: 400 });
     }
 
-    return NextResponse.json({ success: true, reference: transfer.data?.reference });
-  } catch (e: any) {
-    // Catch any unexpected error and update the request status
-    await supabase
-      .from("offramp_requests")
-      .update({
-        fiat_disbursement_status: "failed",
-        admin_note: e.message || "Unexpected error occurred.",
-      })
-      .eq("id", request_id);
+    const response = await fetch(TRIGGER_PAYOUT_API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ request_id }),
+    });
 
-    return NextResponse.json({ error: e.message || "Unexpected error occurred." }, { status: 500 });
+    const result = await response.json();
+
+    if (!response.ok) {
+      return NextResponse.json({ error: result.error || "Payout failed" }, { status: 500 });
+    }
+
+    return NextResponse.json({
+      success: true,
+      reference: result.reference || null,
+      message: "Payout triggered successfully",
+    });
+  } catch (e: any) {
+    return NextResponse.json(
+      { error: e.message || "Unexpected error occurred" },
+      { status: 500 }
+    );
   }
 }
