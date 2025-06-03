@@ -1,7 +1,24 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Layout from "@/components/layout/Layout";
+import { BackgroundElements } from "@/components/ui/BackgroundElements";
+import {
+  ChevronDown,
+  ChevronUp,
+  CheckCircle,
+  XCircle,
+  Filter,
+  RefreshCw,
+  Download,
+  Search,
+  Eye,
+  Copy,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { formatDistanceToNow } from "date-fns";
 
 type WaitlistEntry = {
   id: string;
