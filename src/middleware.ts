@@ -33,13 +33,13 @@ export async function middleware(request: NextRequest) {
   //   }
 
     // Optional: Admin check
-    if (request.nextUrl.pathname.startsWith('/admin')) {
-      if (result.role !== 'admin') {
-        console.log("User is not admin, redirecting to dashboard");
-        return NextResponse.redirect(new URL('/dashboard', request.url));
-      }
-      console.log("Admin access granted");
-    }
+    // if (request.nextUrl.pathname.startsWith('/admin')) {
+    //   if (result.role !== 'admin') {
+    //     console.log("User is not admin, redirecting to dashboard");
+    //     return NextResponse.redirect(new URL('/dashboard', request.url));
+    //   }
+    //   console.log("Admin access granted");
+    // }
 
     console.log("Request authorized, proceeding");
     return NextResponse.next();
