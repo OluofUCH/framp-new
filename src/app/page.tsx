@@ -11,6 +11,8 @@ import {
   FaChartLine,
   FaExchangeAlt,
   FaShieldAlt,
+  FaPlus,
+  FaMinus,
 } from "react-icons/fa";
 import { RiBillFill } from "react-icons/ri";
 import { Hexagon } from "lucide-react";
@@ -18,6 +20,7 @@ import { BackgroundElements } from "@/components/ui/BackgroundElements";
 
 export default function Homepage() {
   const [isHovered, setIsHovered] = useState(false);
+  const [openFAQ, setOpenFAQ] = useState<number | null>(null);
 
   const container = {
     hidden: { opacity: 0 },
@@ -32,7 +35,38 @@ export default function Homepage() {
   const item = {
     hidden: { opacity: 0, y: 20 },
     show: { opacity: 1, y: 0 },
-  };  
+  };
+
+  const faqs = [
+    {
+      question: "How do I off-ramp with Framp?",
+      answer: "Connect your Solana wallet, choose your bank and off-ramp stablecoins in seconds."
+    },
+    {
+      question: "Is my money safe?",
+      answer: "Framp partners with regulated liquidity providers and uses secure smart contracts to manage Our Liquidity Pool."
+    },
+    {
+      question: "What savings options do you offer?",
+      answer: "You can enable auto-saving from each transaction or balance—and soon, earn yield on stablecoins."
+    },
+    {
+      question: "What countries do you support?",
+      answer: "We're launching in Nigeria first, with more African markets coming soon."
+    },
+    {
+      question: "Do I need a bank account?",
+      answer: "Yes, you need bank accounts to get your converted Crypto to Fiat, and convert your Fiat to Crypto."
+    },
+    {
+      question: "Will Framp be launching its Token?",
+      answer: "No, there'll be no token for Framp as our aim is to provide financial services to our customers only."
+    }
+  ];
+
+  const toggleFAQ = (index: number) => {
+    setOpenFAQ(openFAQ === index ? null : index);
+  };
 
   return (
     <Layout>
@@ -197,8 +231,110 @@ export default function Homepage() {
         </div>
       </section>
 
+
+
+    {/* About Us Section */}
+    <section className="py-20 bg-white dark:bg-background">
+        <div className="container mx-auto px-4 sm:px-6">
+          <motion.div
+            className="max-w-4xl mx-auto text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-black dark:text-white">
+              About Us
+            </h2>
+            <div className="bg-muted/50 dark:bg-muted/20 rounded-2xl p-8 md:p-12 border border-black/10 dark:border-white/10">
+              <p className="text-lg md:text-xl text-black/80 dark:text-white/80 leading-relaxed mb-6">
+                Framp is on a mission to unlock <span className="text-[#7b77b9] font-semibold">Stablecoin utility for Everyday Finance Globally</span>.
+              </p>
+              <p className="text-lg text-black/70 dark:text-white/70 leading-relaxed">
+                We're a team of builders passionate about fixing fragmented financial experiences—combining ramps, yield, and real-world use into one smooth app.
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+
+
+      {/* FAQ Section */}
+      <section className="py-20 bg-white dark:bg-background">
+        <div className="container mx-auto px-4 sm:px-6">
+          <motion.div
+            className="max-w-3xl mx-auto text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-black dark:text-white">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-lg text-black/70 dark:text-white/70">
+              Everything you need to know about Framp
+            </p>
+          </motion.div>
+
+          <motion.div
+            className="max-w-3xl mx-auto"
+            variants={container}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+          >
+            {faqs.map((faq, index) => (
+              <motion.div
+                key={index}
+                variants={item}
+                className="mb-4"
+              >
+                <div className="bg-muted/50 dark:bg-muted/20 rounded-xl border border-black/10 dark:border-white/10 overflow-hidden">
+                  <button
+                    onClick={() => toggleFAQ(index)}
+                    className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-muted/70 dark:hover:bg-muted/30 transition-colors"
+                  >
+                    <h3 className="text-lg font-semibold text-black dark:text-white pr-4">
+                      {faq.question}
+                    </h3>
+                    <motion.div
+                      animate={{ rotate: openFAQ === index ? 180 : 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="flex-shrink-0"
+                    >
+                      {openFAQ === index ? (
+                        <FaMinus className="text-[#7b77b9] h-4 w-4" />
+                      ) : (
+                        <FaPlus className="text-[#7b77b9] h-4 w-4" />
+                      )}
+                    </motion.div>
+                  </button>
+                  <motion.div
+                    initial={false}
+                    animate={{
+                      height: openFAQ === index ? "auto" : 0,
+                      opacity: openFAQ === index ? 1 : 0,
+                    }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-6 pb-4">
+                      <p className="text-black/70 dark:text-white/70 leading-relaxed">
+                        {faq.answer}
+                      </p>
+                    </div>
+                  </motion.div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
       {/* CTA Section */}
-      <section className="py-20 bg-white dark:bg-background relative overflow-hidden">
+      <section className="py-20 bg-muted/95 dark:bg-muted/10 relative overflow-hidden">
         <BackgroundElements />
         <div className="container mx-auto px-4 sm:px-6">
           <motion.div
