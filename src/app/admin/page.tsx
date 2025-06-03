@@ -42,6 +42,7 @@ export default function AdminDashboard() {
   const [sortField, setSortField] = useState("created_at");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [selectedEntries, setSelectedEntries] = useState<string[]>([]);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   useEffect(() => {
     fetchWaitlistData();
@@ -118,12 +119,21 @@ export default function AdminDashboard() {
   };
 
   const handleLogout = async () => {
+    setIsLoggingOut(true);
     try {
-      const res = await fetch("/api/auth/logout", { method: "POST" });
-      if (!res.ok) throw new Error("Logout failed");
-      router.push("/login");
-    } catch (err) {
-      console.error("Logout error:", err);
+      const response = await fetch('/api/auth/logout', {
+        method: 'POST',
+      });
+      
+      if (!response.ok) {
+        throw new Error('Logout failed');
+      }
+      
+      // Force a full page refresh when logging out
+      window.location.href = '/login';
+    } catch (error) {
+      console.error('Logout error:', error);
+      setIsLoggingOut(false);
     }
   };
 
