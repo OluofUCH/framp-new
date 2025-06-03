@@ -1,33 +1,57 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
+interface User {
+  id: string;
+  email: string;
+}
+
+interface Profile {
+  id: string;
+  email?: string;
+  role?: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
 export async function GET(request: NextRequest) {
   try {
     console.log("FIX-AUTH: Starting auth repair process");
-    const results: any = {
+    const results: {
+      success: boolean;
+      usersChecked: number;
+      profilesFixed: number;
+      adminsCreated: number;
+      errors: string[];
+    } = {
       success: true,
       usersChecked: 0,
       profilesFixed: 0,
       adminsCreated: 0,
-      errors: []
+      errors: [],
     };
 
-    // 1. Get all authenticated users from your API
+    // 1. Get all authenticated users
     const authRes = await fetch(`${process.env.API_BASE_URL}/auth-users`);
     if (!authRes.ok) {
       const err = await authRes.text();
       throw new Error(`Failed to fetch auth users: ${err}`);
     }
-    const authUsers = await authRes.json();
-    const users = authUsers.users || [];
+
+    const authUsers: { users: User[] } = await authRes.json();
+    const users: User[] = authUsers.users || [];
     results.usersChecked = users.length;
     console.log(`FIX-AUTH: Found ${users.length} users`);
 
     // 2. Get existing profiles
     const profilesRes = await fetch(`${process.env.API_BASE_URL}/profiles`);
-    const existingProfiles = profilesRes.ok ? await profilesRes.json() : [];
-    const profileMap = new Map();
-    existingProfiles.forEach(profile => profileMap.set(profile.id, profile));
+    const existingProfiles: Profile[] = profilesRes.ok ? await profilesRes.json() : [];
+
+    const profileMap = new Map<string, Profile>();
+    existingProfiles.forEach((profile: Profile) => {
+      profileMap.set(profile.id, profile);
+    });
+
     console.log(`FIX-AUTH: Found ${existingProfiles.length} existing profiles`);
 
     // 3. Process each user
@@ -39,7 +63,7 @@ export async function GET(request: NextRequest) {
           const role = isFirstUser ? 'admin' : 'user';
           if (isFirstUser) results.adminsCreated++;
 
-          const profilePayload = {
+          const profilePayload: Profile = {
             id: user.id,
             email: user.email,
             role,
@@ -63,7 +87,7 @@ export async function GET(request: NextRequest) {
           console.log(`FIX-AUTH: User ${user.id} already has a profile`);
         }
 
-        // Ensure user exists in "users" table
+        // Ensure user exists in users table
         const userRes = await fetch(`${process.env.API_BASE_URL}/users/${user.id}`);
         if (userRes.status === 404) {
           const userPayload = {
