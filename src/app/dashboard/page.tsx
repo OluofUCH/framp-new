@@ -29,7 +29,7 @@ export default function DashboardPage() {
           }
           const errorData = await res.json();
           throw new Error(errorData.error || "Failed to fetch user data");
-          console.log(data);
+         
         }
 
         const data = await res.json();
