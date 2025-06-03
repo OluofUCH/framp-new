@@ -43,7 +43,7 @@ export default function Header() {
           <Link href="/" className='text-black/80 dark:text-white/80 hover:text-[#7b77b9] dark:hover:text-[#9f9ddb] transition-colors'>
             Home
           </Link>
-          <Link href="/" className='text-black/80 dark:text-white/80 hover:text-[#7b77b9] dark:hover:text-[#9f9ddb] transition-colors'>
+          <Link href="/about" className='text-black/80 dark:text-white/80 hover:text-[#7b77b9] dark:hover:text-[#9f9ddb] transition-colors'>
             About
           </Link>
           <Link href="/" className='text-black/80 dark:text-white/80 hover:text-[#7b77b9] dark:hover:text-[#9f9ddb] transition-colors'>
