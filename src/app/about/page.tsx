@@ -17,7 +17,7 @@ import { RiTeamFill, RiGlobalLine } from "react-icons/ri";
 import { BackgroundElements } from "@/components/ui/BackgroundElements";
 
 export default function AboutPage() {
-  const [hoveredCard, setHoveredCard] = useState(null);
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
   const container = {
     hidden: { opacity: 0 },
