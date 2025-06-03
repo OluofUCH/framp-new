@@ -13,7 +13,6 @@ import {
   Search,
   Eye,
 } from "lucide-react"
-import { supabase } from "@/lib/supabase"
 import { formatDistanceToNow } from "date-fns"
 
 interface OfframpRequest {
@@ -61,7 +60,6 @@ export default function AdminOfframpPage() {
   const filterRequests = () => {
     let filtered = [...requests]
 
-    // Apply search filter
     if (searchTerm) {
       const term = searchTerm.toLowerCase()
       filtered = filtered.filter(
@@ -74,7 +72,6 @@ export default function AdminOfframpPage() {
       )
     }
 
-    // Apply status filter
     if (statusFilter !== "all") {
       filtered = filtered.filter((req) =>
         statusFilter === "pending_all"
@@ -90,18 +87,11 @@ export default function AdminOfframpPage() {
     setLoading(true)
 
     try {
-      const { data: requestsData, error: requestsError } = await supabase
-        .from("offramp_requests")
-        .select("*")
-        .order("created_at", { ascending: false })
+      const res = await fetch("/api/offramp/requests")
+      const requestsData = await res.json()
 
-      if (requestsError) {
-        console.error("Error fetching offramp requests:", requestsError.message)
-        return
-      }
-
-      if (!requestsData || requestsData.length === 0) {
-        setRequests([])
+      if (!res.ok || !requestsData) {
+        console.error("Error fetching offramp requests")
         return
       }
 
@@ -117,26 +107,26 @@ export default function AdminOfframpPage() {
       const userIds = [...new Set(requestsData.map((req: any) => req.user_id))]
 
       if (userIds.length > 0) {
-        const { data: usersData, error: usersError } = await supabase
-          .from("users")
-          .select("id, name, email, wallet")
-          .in("id", userIds)
+        const resUsers = await fetch("/api/users/by-ids", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ids: userIds }),
+        })
+        const usersData = await resUsers.json()
 
-        if (!usersError && usersData) {
-          const userMap = usersData.reduce((acc: any, user: any) => {
-            acc[user.id] = user
-            return acc
-          }, {})
+        const userMap = usersData.reduce((acc: any, user: any) => {
+          acc[user.id] = user
+          return acc
+        }, {})
 
-          const enrichedRequests = processedRequests.map((request: any) => ({
-            ...request,
-            user_name: userMap[request.user_id]?.name || "Unknown",
-            user_email: userMap[request.user_id]?.email || "Unknown",
-            user_wallet: userMap[request.user_id]?.wallet || "N/A",
-          }))
+        const enrichedRequests = processedRequests.map((request: any) => ({
+          ...request,
+          user_name: userMap[request.user_id]?.name || "Unknown",
+          user_email: userMap[request.user_id]?.email || "Unknown",
+          user_wallet: userMap[request.user_id]?.wallet || "N/A",
+        }))
 
-          setRequests(enrichedRequests)
-        }
+        setRequests(enrichedRequests)
       }
     } catch (err) {
       console.error("Error processing user data:", err)
@@ -147,7 +137,6 @@ export default function AdminOfframpPage() {
 
   const handleTriggerPayout = async (requestId: string) => {
     setLoading(true)
-
     try {
       const res = await fetch("/api/offramp/trigger-payout", {
         method: "POST",
@@ -254,18 +243,18 @@ export default function AdminOfframpPage() {
       const response = await fetch('/api/auth/logout', {
         method: 'POST',
       })
-      
+
       if (!response.ok) {
         throw new Error('Logout failed')
       }
-      
-      // Force a full page refresh when logging out
+
       window.location.href = '/login'
     } catch (error) {
       console.error('Logout error:', error)
       setIsLoggingOut(false)
     }
   }
+
 
   return (
     <Layout>

@@ -2,23 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Layout from "@/components/layout/Layout";
-import { BackgroundElements } from "@/components/ui/BackgroundElements";
-import {
-  ChevronDown,
-  ChevronUp,
-  CheckCircle,
-  XCircle,
-  Filter,
-  RefreshCw,
-  Download,
-  Search,
-  Eye,
-  Copy,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { supabase } from "@/lib/supabase";
-import { formatDistanceToNow } from "date-fns";
 
 type WaitlistEntry = {
   id: string;
@@ -37,183 +20,100 @@ export default function AdminDashboard() {
   const [waitlistData, setWaitlistData] = useState<WaitlistEntry[]>([]);
   const [filteredData, setFilteredData] = useState<WaitlistEntry[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [statusFilter, setStatusFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
-  const [sortField, setSortField] = useState<string>("created_at");
+  const [sortField, setSortField] = useState("created_at");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [selectedEntries, setSelectedEntries] = useState<string[]>([]);
-  const [activeView, setActiveView] = useState<string>("table");
-  const [filterMenuOpen, setFilterMenuOpen] = useState<boolean>(false);
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   useEffect(() => {
-    // Fetch waitlist data directly from Supabase
-    const fetchWaitlistData = async () => {
-      try {
-        setIsLoading(true);
-
-        let query = supabase.from("waitlist").select("*");
-
-        // Apply status filter if not "all"
-        if (statusFilter !== "all") {
-          query = query.eq("status", statusFilter);
-        }
-
-        // Apply search query if present
-        if (searchQuery) {
-          query = query.or(
-            `email.ilike.%${searchQuery}%,name.ilike.%${searchQuery}%,wallet.ilike.%${searchQuery}%`
-          );
-        }
-
-        // Apply sorting
-        query = query.order(sortField, { ascending: sortDirection === "asc" });
-
-        const { data, error } = await query;
-
-        if (error) {
-          throw error;
-        }
-
-        setWaitlistData(data || []);
-        setFilteredData(data || []);
-      } catch (error) {
-        console.error("Error fetching waitlist data:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchWaitlistData();
-  }, [statusFilter, searchQuery, sortField, sortDirection]);
+  }, []);
 
-  const toggleSort = (field: string) => {
-    if (sortField === field) {
-      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
-    } else {
-      setSortField(field);
-      setSortDirection("asc");
-    }
-  };
+  useEffect(() => {
+    applyFilters();
+  }, [waitlistData, searchQuery, statusFilter, sortField, sortDirection]);
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }).format(date);
-  };
-
-  const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.checked) {
-      setSelectedEntries(filteredData.map((entry) => entry.id));
-    } else {
-      setSelectedEntries([]);
-    }
-  };
-
-  const handleSelectEntry = (id: string) => {
-    if (selectedEntries.includes(id)) {
-      setSelectedEntries(selectedEntries.filter((entryId) => entryId !== id));
-    } else {
-      setSelectedEntries([...selectedEntries, id]);
-    }
-  };
-
-  const handleStatusChange = async (entries: string[], newStatus: string) => {
+  const fetchWaitlistData = async () => {
     try {
-      // Update status directly in Supabase
-      const { error } = await supabase
-        .from("waitlist")
-        .update({ status: newStatus })
-        .in("id", entries);
-
-      if (error) {
-        throw error;
-      }
-
-      // Update local state after successful update
-      const updatedData = waitlistData.map((entry) =>
-        entries.includes(entry.id)
-          ? { ...entry, status: newStatus as "pending" | "confirmed" }
-          : entry
-      );
-
-      setWaitlistData(updatedData);
-      setSelectedEntries([]);
+      setIsLoading(true);
+      const res = await fetch("/api/waitlist");
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to fetch waitlist data");
+      setWaitlistData(data.entries);
     } catch (error) {
-      console.error("Error updating waitlist entries:", error);
+      console.error("Error fetching waitlist data:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const exportToCSV = () => {
-    const headers = [
-      "ID",
-      "Name",
-      "Email",
-      "Wallet",
-      "Referral",
-      "Status",
-      "IP Address",
-      "Created At",
-    ].join(",");
+  const applyFilters = () => {
+    let data = [...waitlistData];
 
-    const csvRows = filteredData.map((entry) => {
-      return [
-        entry.id,
-        entry.name || "",
-        entry.email,
-        entry.wallet || "",
-        entry.referral || "",
-        entry.status,
-        entry.ip_address,
-        entry.created_at,
-      ]
-        .map((value) => `"${value}"`)
-        .join(",");
+    if (statusFilter !== "all") {
+      data = data.filter((entry) => entry.status === statusFilter);
+    }
+
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      data = data.filter(
+        (entry) =>
+          entry.email.toLowerCase().includes(q) ||
+          (entry.name?.toLowerCase().includes(q) ?? false) ||
+          (entry.wallet?.toLowerCase().includes(q) ?? false)
+      );
+    }
+
+    data.sort((a, b) => {
+      const aValue = a[sortField as keyof WaitlistEntry];
+      const bValue = b[sortField as keyof WaitlistEntry];
+      if (typeof aValue === "string" && typeof bValue === "string") {
+        return sortDirection === "asc"
+          ? aValue.localeCompare(bValue)
+          : bValue.localeCompare(aValue);
+      }
+      return 0;
     });
 
-    const csvContent = [headers, ...csvRows].join("\n");
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.setAttribute("href", url);
-    link.setAttribute(
-      "download",
-      `waitlist_export_${new Date().toISOString().split("T")[0]}.csv`
-    );
-    link.style.visibility = "hidden";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    setFilteredData(data);
   };
 
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text);
-    // Could add a toast notification here
+  const handleStatusChange = async (ids: string[], newStatus: "pending" | "confirmed") => {
+    try {
+      const res = await fetch("/api/waitlist/update-status", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids, status: newStatus }),
+      });
+
+      const result = await res.json();
+      if (!res.ok) throw new Error(result.error || "Failed to update status");
+
+      const updated = waitlistData.map((entry) =>
+        ids.includes(entry.id) ? { ...entry, status: newStatus } : entry
+      );
+      setWaitlistData(updated);
+      setSelectedEntries([]);
+    } catch (error) {
+      console.error("Error updating status:", error);
+    }
   };
 
   const handleLogout = async () => {
-    setIsLoggingOut(true);
     try {
-      const response = await fetch('/api/auth/logout', {
-        method: 'POST',
-      });
-      
-      if (!response.ok) {
-        throw new Error('Logout failed');
-      }
-      
-      // Force a full page refresh when logging out
-      window.location.href = '/login';
-    } catch (error) {
-      console.error('Logout error:', error);
-      setIsLoggingOut(false);
+      const res = await fetch("/api/auth/logout", { method: "POST" });
+      if (!res.ok) throw new Error("Logout failed");
+      router.push("/login");
+    } catch (err) {
+      console.error("Logout error:", err);
     }
   };
+
+  // Render your component UI here using filteredData
+
+
+
 
   return (
     <Layout>
