@@ -4,33 +4,17 @@ import type { NextRequest } from 'next/server';
 export async function middleware(request: NextRequest) {
   console.log(`Middleware running for path: ${request.nextUrl.pathname}`);
 
-  // Get token from cookie
-  const token = request.cookies.get('session')?.value;
-
-  if (!token) {
-    console.log("No auth token found, redirecting to login");
-    return NextResponse.redirect(new URL('/login', request.url));
-  }
+ 
  
   try {
-  //   // Replace this URL with your actual API endpoint
-  //   const res = await fetch('https://your-api.com/auth/validate', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       'x-frontend-key': 'framp_6565fde02c6f0f3b052cf3b02daaea77cf8bd71247b0dae5939c3f7a9272af6f',
-  //       'Authorization': `Bearer ${token}`
-  //     },
-  //     body: JSON.stringify({ token }),
-  //   });
+    const sessionToken = request.cookies.get('session')?.value;
 
-  //   const result = await res.json();
-  //   console.log("Auth validation result:", result);
 
-  //   if (!res.ok || !result.valid) {
-  //     console.log("Token is invalid, redirecting to login");
-  //     return NextResponse.redirect(new URL('/login', request.url));
-  //   }
+    if (!sessionToken) {
+      console.log("No session token found in cookies, redirecting to login");
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
+  
 
     // Optional: Admin check
     // if (request.nextUrl.pathname.startsWith('/admin')) {

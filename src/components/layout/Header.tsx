@@ -37,20 +37,6 @@ export default function Header() {
             )}
           </Link>
         </div>
-
-        {/* Desktop Navigation Links */}
-        <div className="hidden md:flex space-x-6 text-sm lg:text-base font-medium">
-          <Link href="/" className='text-black/80 dark:text-white/80 hover:text-[#7b77b9] dark:hover:text-[#9f9ddb] transition-colors'>
-            Home
-          </Link>
-          <Link href="/about" className='text-black/80 dark:text-white/80 hover:text-[#7b77b9] dark:hover:text-[#9f9ddb] transition-colors'>
-            About
-          </Link>
-          <Link href="/" className='text-black/80 dark:text-white/80 hover:text-[#7b77b9] dark:hover:text-[#9f9ddb] transition-colors'>
-            Product
-          </Link>
-        </div>
-
         <div className="flex items-center gap-2 sm:gap-3">
           {mounted && (
             <Button 
@@ -62,13 +48,6 @@ export default function Header() {
               {theme === 'dark' ? <FaSun className="h-4 w-4 sm:h-5 sm:w-5" /> : <FaMoon className="h-4 w-4 sm:h-5 sm:w-5" />}
             </Button>
           )}
-
-          <Button 
-            asChild 
-            className="text-xs sm:text-sm py-1 px-3 sm:px-4 h-8 sm:h-9 bg-[#7b77b9] hover:bg-[#7b77b9]/90 text-white"
-          >
-            <Link href="/signup">Sign Up</Link>
-          </Button>
         </div>
       </div>
     </nav>
