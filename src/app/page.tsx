@@ -4,21 +4,9 @@
 import { BackgroundElements } from '@/components/ui/BackgroundElements';
 import Layout from '@/components/layout/Layout';
 import LoginForm from '@/components/auth/LoginForm';
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
 
-export default function LoginPage(request: NextRequest) {
-  try{
-   const sessionToken = request.cookies.get('session')?.value;
-  
+export default function LoginPage() {
 
-  if (sessionToken) {
-    console.log("Session token found in cookies, redirecting to dashboard");
-    return NextResponse.redirect(new URL('/dashboard', request.url));
-  }}
-  catch{
-    console.log("yo");
-  }
   return (
     <Layout>
       <section className="py-16 min-h-[90vh] relative bg-white dark:bg-background">
