@@ -44,28 +44,28 @@ const DashboardPage = () => {
       id: 1,
       title: 'Onramp',
       description: 'Convert your cash to crypto',
-      icon: '💰',
+      icon: logoSrc8,
       color: 'bg-purple-100'
     },
     {
       id: 2,
       title: 'Offramp',
       description: 'Convert your crypto to cash',
-      icon: '🔄',
+      icon: logoSrc7,
       color: 'bg-gray-100'
     },
     {
       id: 3,
       title: 'Utility',
       description: 'Pay bill and Utilities easily',
-      icon: '🔌',
+      icon: logoSrc9,
       color: 'bg-pink-100'
     },
     {
       id: 4,  
       title: 'Safe Box',
       description: 'Save daily, weekly or monthly',
-      icon: '🔒',
+      icon: logoSrc10,
       color: 'bg-green-100'
     }
   ];
@@ -73,6 +73,11 @@ const DashboardPage = () => {
   const logoSrc2 = "/images/as.png";
   const logoSrc3 = "/images/image 3.png";
   const logoSrc4 = "/images/Vector.png";
+  
+  const logoSrc7 = "/images/offramp.png";
+  const logoSrc8 = "/images/Onramp.png";
+  const logoSrc9 = "/images/utility.png";
+  const logoSrc10 = "/images/more.png";
   return (
     <div className={`min-h-screen ${isDark ? 'dark bg-[#1F1F1F]' : 'bg-gray-50'}`}>
       {/* Header */}
@@ -136,7 +141,13 @@ const DashboardPage = () => {
               key={feature.id} 
               className={`${feature.color} rounded-2xl p-4 h-28 flex flex-col justify-between shadow-sm`}
             >
-              <span className="text-2xl">{feature.icon}</span>
+              <span className="text-2xl"> <Image 
+              src={feature.icon} 
+              alt="Framp" 
+              width={80} 
+              height={24}
+              className="h-6 w-auto"
+            /></span>
               <div>
                 <h3 className="font-semibold text-gray-900 text-sm">{feature.title}</h3>
                 <p className="text-xs text-gray-600 mt-1">{feature.description}</p>
