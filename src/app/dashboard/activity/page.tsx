@@ -62,7 +62,7 @@ const DashboardPage = () => {
       color: 'bg-pink-100'
     },
     {
-      id: 4,
+      id: 4,  
       title: 'Safe Box',
       description: 'Save daily, weekly or monthly',
       icon: '🔒',
@@ -87,7 +87,7 @@ const DashboardPage = () => {
 
       {/* Card Section */}
       <div className="px-4 py-4">
-        <div className="bg-[#F5A623] rounded-xl p-4 text-white">
+        <div className={`${isDark ? 'dark bg-[#F5A623]' : 'bg-[#C44FE2]'} rounded-xl p-4 text-white`}>
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-[0]">
           <Image 
@@ -128,21 +128,44 @@ const DashboardPage = () => {
         </div>
       </div>
 
-      {/* Features Grid */}
-      <div className="px-4 py-2">
+     {/* Features Grid */}
+     <div className="px-4 py-4">
         <div className="grid grid-cols-2 gap-4">
-          {features.map(feature => (
-            <div 
-              key={feature.id} 
-              className={`${feature.color} rounded-xl p-4 h-32 flex flex-col justify-between`}
-            >
-              <span className="text-2xl">{feature.icon}</span>
-              <div>
-                <h3 className="font-semibold text-gray-900">{feature.title}</h3>
-                <p className="text-sm text-gray-600">{feature.description}</p>
-              </div>
+          {/* First row - Onramp (larger) and Offramp (smaller) */}
+          
+          <div className="bg-gray-100 rounded-2xl p-4 h-24 flex flex-col justify-between shadow-sm">
+            <span className="text-2xl">💰</span>
+            <div>
+              <h3 className="font-semibold text-gray-900 text-sm">Onramp</h3>
+              <p className="text-xs text-gray-600 mt-1">Convert your cash to crypto</p>
             </div>
-          ))}
+          </div>
+          
+          <div className="bg-orange-100 rounded-2xl p-4 h-32 flex flex-col justify-between shadow-sm">
+            <span className="text-2xl">🔄</span>
+            <div>
+              <h3 className="font-semibold text-gray-900 text-sm">Offramp</h3>
+              <p className="text-xs text-gray-600 mt-1">Convert your crypto to cash</p>
+            </div>
+          </div>
+          
+          {/* Second row - Utility (smaller) and Safe Box (larger) */}
+          <div className="bg-green-100 rounded-2xl p-4 h-32 flex flex-col justify-between shadow-sm">
+            <span className="text-2xl">🔌</span>
+            <div>
+              <h3 className="font-semibold text-gray-900 text-sm">Utility</h3>
+              <p className="text-xs text-gray-600 mt-1">Pay bill and Utilities easily</p>
+            </div>
+          </div>
+          
+            
+          <div className="bg-pink-100 rounded-2xl p-4 h-24 flex flex-col justify-between shadow-sm">
+            <span className="text-2xl">💚</span>
+            <div>
+              <h3 className="font-semibold text-gray-900 text-sm">Safe Box</h3>
+              <p className="text-xs text-gray-600 mt-1">Save daily, weekly or monthly</p>
+            </div>
+          </div>
         </div>
       </div>
 

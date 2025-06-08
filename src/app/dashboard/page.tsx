@@ -20,6 +20,7 @@ import type { NextRequest } from 'next/server';
 
 const DashboardPage = () => {
   const [isDark, setIsDark] = useState(false);
+  const [time, setTime] = useState("");
 
   // Initialize theme from system preference or localStorage
   useEffect(() => {
@@ -86,16 +87,43 @@ const DashboardPage = () => {
     }
   ];
 
-  const currencies = [
-    { id: 1, name: 'USDT', amount: 1024, change: 'up' },
-    { id: 2, name: 'USDC', amount: 1.0587, change: 'down' },
-    { id: 3, name: 'USD', amount: 1.12, change: 'up' }
-  ];
+  useEffect(() => {
+    const hour = new Date().getHours();
+    if (hour >= 5 && hour < 12) {
+      setTime("Good Morning");
+    } else if (hour >= 12 && hour < 17) {
+      setTime("Good Afternoon");
+    } else if (hour >= 17 && hour < 20) {
+      setTime("Good Evening");
+    } else {
+      setTime("Good Night");
+    }
+  }, []);
 
   const logoSrc = "/images/scan.png";
   const logoSrc2 = "/images/notification.png";
   const logoSrc3 = "/images/as.png";
   const logoSrc4 = "/images/Vector.png";
+  const logoSrc5 = "/images/Group.png";
+  const logoSrc6 = "/images/sol.png";
+  const logoSrc7 = "/images/offramp.png";
+  const logoSrc8 = "/images/Onramp.png";
+  const logoSrc9 = "/images/utility.png";
+  const logoSrc10 = "/images/more.png";
+
+  const currencies = [
+    { id: 1, name: 'USDT', amount: 1024, change: 'up', logo: logoSrc5, per: "0.01%" },
+    { id: 2, name: 'USDC', amount: 1.0587, change: 'down', logo: logoSrc5, per: "0.01%" },
+    { id: 3, name: 'USD', amount: 1.12, change: 'up', logo: logoSrc5, per: "0.01%" }
+  ];
+  const quickAccessItems = [
+    { id: 1, name: 'Onramp', icon: logoSrc8, color: '#E3E2F5' },
+    { id: 2, name: 'Utility', icon: logoSrc9, color: '#E3E2F5' },
+    { id: 3, name: 'Offramp', icon: logoSrc7, color: '#E3E2F5' },
+    { id: 4, name: 'More', icon: logoSrc10, color: '#E3E2F5' }
+  ];
+
+
   const [showBalance, setShowBalance] = useState(true);
 
   const { logout } = useAuth();
@@ -157,6 +185,18 @@ const DashboardPage = () => {
     }
   };
 
+  // if(!userData){
+  //   window.location.href = "/login";
+
+  //   return (
+  //     <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center">
+  //       <p className="text-white/70">Login session expired</p>
+  //       <p className="text-white/70">Navigating you to  login page</p>
+
+  //     </div>
+  //   );
+  // }
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center">
@@ -204,7 +244,7 @@ const DashboardPage = () => {
               <p className="text-sm font-light text-gray-600 dark:text-white">Hello,</p>
               <p className="font-semibold text-gray-900 dark:text-white">{userData.profile?.email?.split('@')[0]}</p>
             </div>
-            <p className="text-sm font-light text-gray-600 dark:text-white">Good evening</p>
+            <p className="text-sm font-light text-gray-600 dark:text-white">{time}</p>
             </div>
           </div>
           <div className="flex gap-3">
@@ -280,7 +320,16 @@ const DashboardPage = () => {
           </div>
           <div className="flex flex-col items-start">
             <div className="rounded-lg px-0 py-1 text-[7px]">
+              <div className="flex gap-2">
+              <Image 
+                            src={logoSrc6} 
+                            alt="Framp" 
+                            width={18} 
+                            height={18}
+                            className="h-4 w-auto"
+                          />
               Wallet Connected
+              </div>
             </div>
           
           <div className="rounded-lg px-0 py-1 text-[14px]">
@@ -289,20 +338,53 @@ const DashboardPage = () => {
           </div>
         </div>
 
+       
+
         {/* Currency List */}
         <div className="flex gap-3 overflow-x-auto pb-4 mb-0">
           {currencies.map(currency => (
             <div key={currency.id} className="flex-shrink-0 bg-[#E3E2F5] dark:bg-[#E3E2F5] rounded-xl p-4 min-w-[146px] shadow-sm">
-              <div className="flex justify-between items-center mb-0">
+              <div className="flex gap-2 items-center mb-0">
                 <span className="text-gray-900 dark:text-black font-bold">{currency.name}</span>
-                <span className={currency.change === 'up' ? 'text-green-500' : 'text-red-500'}>
-                  {currency.change === 'up' ? '↑' : '↓'}
+                <span className={currency.change === 'up' ? 'text-green-500' : 'text-red-500 flex gap-4'}>
+                {currency.per}
+                  {currency.change === 'up' ? ' ↑' : ' ↓'}  
+                  
                 </span>
               </div>
+              <div className="flex justify-between">
               <p className="font-semibold text-gray-900 dark:text-black">$ {currency.amount}</p>
-
+              <Image 
+                      src={currency.logo} 
+                      alt="Framp" 
+                      width={80} 
+                      height={24}
+                      className="h-6 w-auto"
+                    />
+</div>
             </div>
           ))}
+        </div>
+
+           {/* Quick Access */}
+           <div className="mb-6">
+          <h3 className={`font-semibold text-gray-900 text-{18px} mb-3 ${isDark ? 'dark text-white' : 'text-black'}`}>Quick Access</h3>
+          <div className="grid grid-cols-4 gap-4">
+            {quickAccessItems.map(item => (
+              <div key={item.id} className="flex flex-col items-center">
+                <div className={`w-16 h-16 rounded-md bg-[#E3E2F5] flex items-center justify-center mb-2`}>
+                <Image 
+                      src={item.icon} 
+                      alt="Framp" 
+                      width={80} 
+                      height={24}
+                      className="h-6 w-auto"
+                    />
+                </div>
+                <span className={`text-xs ${isDark ? 'dark text-white' : 'text-black'} font-semi-bold text-center`}>{item.name}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </header>
 
