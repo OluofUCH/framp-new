@@ -15,7 +15,16 @@ import Image from 'next/image';
 
 const DashboardPage = () => {
   const [isDark, setIsDark] = useState(false);
-
+  const logoSrc = "/images/logo.svg";
+  const logoSrc2 = "/images/as.png";
+  const logoSrc3 = "/images/image 3.png";
+  const logoSrc4 = "/images/Vector.png";
+  
+  const logoSrc7 = "/images/offramp.png";
+  const logoSrc8 = "/images/Onramp.png";
+  const logoSrc9 = "/images/utility.png";
+  const logoSrc10 = "/images/more.png";
+  const logo11 = "/images/fr.svg";
   // Initialize theme from system preference or localStorage
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -69,17 +78,9 @@ const DashboardPage = () => {
       color: 'bg-green-100'
     }
   ];
-  const logoSrc = "/images/logo.svg";
-  const logoSrc2 = "/images/as.png";
-  const logoSrc3 = "/images/image 3.png";
-  const logoSrc4 = "/images/Vector.png";
-  
-  const logoSrc7 = "/images/offramp.png";
-  const logoSrc8 = "/images/Onramp.png";
-  const logoSrc9 = "/images/utility.png";
-  const logoSrc10 = "/images/more.png";
+ 
   return (
-    <div className={`min-h-screen ${isDark ? 'dark bg-[#1F1F1F]' : 'bg-gray-50'}`}>
+    <div className={`min-h-screen ${isDark ? 'dark bg-[#1F1F1F]' : 'bg-white'}`}>
       {/* Header */}
       <header className="px-4 pt-4 pb-2 flex items-center justify-between">
         <button className="p-2">
@@ -92,7 +93,8 @@ const DashboardPage = () => {
 
       {/* Card Section */}
       <div className="px-4 py-4">
-        <div className={`${isDark ? 'dark bg-[#F5A623]' : 'bg-[#C44FE2]'} rounded-xl p-4 text-white`}>
+        <div className={`${isDark ? 'dark bg-[#F5A623]' : 'bg-[#C44FE2]'} rounded-xl p-4  text-white`}>
+         
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-[0]">
           <Image 
@@ -116,7 +118,7 @@ const DashboardPage = () => {
               </span>
             </div>
           </div>
-          <div className="text-xl rounded-lg p-1">
+          <div className="text-xl rounded-lg flex p-1">
           <Image 
               src={logoSrc3} 
               alt="Framp" 
@@ -126,34 +128,88 @@ const DashboardPage = () => {
             />
             </div>
           <div className="flex items-cente justify-center gap-2 mt-4">
-            <div className=" text-[20px] rounded-lg px-4 py-2">
-              Coming soon...
+            <div className=" text-[20px] text-white rounded-lg px-4 py-2">
+2345 **** **** 5487
             </div>
           </div>
         </div>
-      </div>
+        
+        </div>
 
       {/* Features Grid */}
       <div className="px-4 py-4">
-        <div className="grid grid-cols-2 gap-4">
-          {features.map(feature => (
-            <div 
-              key={feature.id} 
-              className={`${feature.color} rounded-2xl p-4 h-28 flex flex-col justify-between shadow-sm`}
-            >
+        <div className="grid grid-cols-2 gap-4 h-64">
+          {/* Left Column */}
+          <div className="flex flex-col gap-4">
+
+              {/* Utility - Short */}
+              <div className={`${features[0].color} rounded-2xl p-4 h-20 flex flex-col justify-between shadow-sm`}>
               <span className="text-2xl"> <Image 
-              src={feature.icon} 
+              src={features[0].icon} 
               alt="Framp" 
               width={80} 
               height={24}
               className="h-6 w-auto"
             /></span>
               <div>
-                <h3 className="font-semibold text-gray-900 text-sm">{feature.title}</h3>
-                <p className="text-xs text-gray-600 mt-1">{feature.description}</p>
+                <h3 className="font-semibold text-gray-900 text-xs">{features[0].title}</h3>
+                <p className="text-[10px] text-gray-600 mt-1">{features[0].description}</p>
               </div>
             </div>
-          ))}
+
+            {/* Onramp - Tall */}
+            <div className={`${features[2].color} rounded-2xl p-4 flex-1 flex flex-col pt-6 shadow-sm`}>
+            <span className="text-2xl"> <Image 
+              src={features[2].icon} 
+              alt="Framp" 
+              width={80} 
+              height={24}
+              className="h-6 w-auto"
+            /></span>
+              <div>
+                <h3 className="font-semibold text-gray-900 text-sm">{features[2].title}</h3>
+                <p className="text-xs text-gray-600 mt-1">{features[2].description}</p>
+              </div>
+            </div>
+            
+          
+          </div>
+
+          {/* Right Column */}
+          <div className="flex flex-col gap-4">
+          
+            
+            {/* Safe Box - Tall */}
+            <div className={`${features[1].color} rounded-2xl p-4 flex-1 flex flex-col pt-6 shadow-sm`}>
+            <span className="text-2xl"> <Image 
+              src={features[1].icon} 
+              alt="Framp" 
+              width={80} 
+              height={24}
+              className="h-6 w-auto"
+            /></span>
+              <div>
+                <h3 className="font-semibold text-gray-900 text-sm">{features[1].title}</h3>
+                <p className="text-xs text-gray-600 mt-1">{features[1].description}</p>
+              </div>
+            </div>
+
+              {/* Offramp - Short */}
+              <div className={`${features[3].color} rounded-2xl p-4 h-20 flex flex-col justify-between shadow-sm`}>
+              <span className="text-2xl"> <Image 
+              src={features[3].icon} 
+              alt="Framp" 
+              width={80} 
+              height={24}
+              className="h-6 w-auto"
+            /></span>
+              <div>
+                <h3 className="font-semibold text-gray-900 text-xs">{features[3].title}</h3>
+                <p className="text-[10px] text-nowrap text-gray-600 mt-1">{features[3].description}</p>
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
 

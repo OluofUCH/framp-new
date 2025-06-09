@@ -4,6 +4,8 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, Eye, EyeOff } from 'lucide-react';
 import Image from 'next/image';
+import { useEffect } from 'react';
+
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
@@ -68,8 +70,9 @@ export default function LoginForm() {
 
     setLoading(false);
   };
-  
-  const logoSrc3 = "/images/Frame 55.png";
+    
+  const logoSrc3 = "/images/Frame 55.svg";
+ 
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -136,7 +139,7 @@ export default function LoginForm() {
 
           {/* Forgot Password */}
           <div className="flex justify-end mb-6">
-            <a href="#" className="text-indigo-600 text-sm hover:underline">Forgot password?</a>
+            <a href="/forgot" className="text-indigo-600 text-sm hover:underline">Forgot password?</a>
           </div>
 
           {/* Login Button */}

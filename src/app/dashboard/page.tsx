@@ -110,6 +110,7 @@ const DashboardPage = () => {
   const logoSrc8 = "/images/Onramp.png";
   const logoSrc9 = "/images/utility.png";
   const logoSrc10 = "/images/more.png";
+  const logo11 = "/images/fr.svg";
 
   const currencies = [
     { id: 1, name: 'USDT', amount: 1024, change: 'up', logo: logoSrc5, per: "0.01%" },
@@ -175,7 +176,7 @@ const DashboardPage = () => {
     setIsLoggingOut(true);
     try {
       // Sign out using Supabase
-     
+    
       await fetch("/api/auth/logout", { method: "POST" });
 
       window.location.href = "/login";
@@ -231,9 +232,9 @@ const DashboardPage = () => {
   return (
     <div className={`min-h-screen transition-colors duration-300 ${isDark ? 'dark bg-[#1F1F1F]' : 'bg-white'}`}>
       {/* Header */}
-      <header className="px-4 pt-2 pb-4">
+      <header className="px-4 pt-2 pb-0">
 
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex justify-between items-center mb-2">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
               <span>👤</span>
@@ -255,15 +256,6 @@ const DashboardPage = () => {
               {isDark ? <FaSun className="w-5 h-5" /> : <FaMoon className="w-5 h-5" />}
             </button>
             <button className="p-2 rounded-md bg-gray-200 dark:bg-[#E3E2F5] text-gray-600 dark:text-gray-300">
-               <Image 
-                            src={logoSrc} 
-                            alt="Framp" 
-                            width={18} 
-                            height={18}
-                            className="h-4 w-auto"
-                          />
-            </button>
-            <button className="p-2 rounded-md bg-gray-200 dark:bg-[#E3E2F5] text-gray-600 dark:text-gray-300">
             <Image 
                             src={logoSrc2} 
                             alt="Framp" 
@@ -276,30 +268,27 @@ const DashboardPage = () => {
         </div>
 
         {/* Balance Card */}
-        <div className="bg-gradient-to-tr from-[#7A73C1] via-[#443F91] to-[#161737] rounded-2xl p-4 text-white mb-6">
-         <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-[0]">
-                  <Image 
-                      src={logoSrc3} 
-                      alt="Framp" 
-                      width={80} 
-                      height={24}
-                      className="h-6 w-auto"
-                    />
-                    <p>ramp</p>
-                    </div>
-                    <div className="w-8 h-8 flex items-center justify-center">
-                      <span className="text-2xl">
-                      <Image 
-                      src={logoSrc4} 
-                      alt="Framp" 
-                      width={80} 
-                      height={24}
-                      className="h-6 w-auto"
-                    />
-                      </span>
-                    </div>
-                  </div>
+        <div className="bg-gradient-to-tr flex justify-between from-[#7A73C1] via-[#443F91] to-[#161737] rounded-2xl p-4 text-white mb-6">
+        
+          <div>
+          <div className="flex flex-col items-start">
+            <div className="rounded-lg px-0 py-0 text-[7px]">
+              <div className="flex gap-2">
+              <Image 
+                            src={logoSrc6} 
+                            alt="Framp" 
+                            width={14} 
+                            height={14}
+                            className="h-4 w-auto"
+                          />
+              Wallet Connected
+              </div>
+            </div>
+          
+          <div className="rounded-lg px-0 py-1 text-[14px]">
+              **** **** 6848
+            </div>
+          </div>
           <div className="mb-4">
             <p className="text-sm opacity-80 mb-1">My Balance</p>
             <div className="flex items-center gap-4 mb-4">
@@ -318,48 +307,38 @@ const DashboardPage = () => {
                       </button>
                     </div>
           </div>
-          <div className="flex flex-col items-start">
-            <div className="rounded-lg px-0 py-1 text-[7px]">
-              <div className="flex gap-2">
-              <Image 
-                            src={logoSrc6} 
-                            alt="Framp" 
-                            width={18} 
-                            height={18}
-                            className="h-4 w-auto"
-                          />
-              Wallet Connected
-              </div>
-            </div>
-          
-          <div className="rounded-lg px-0 py-1 text-[14px]">
-              **** **** 6848
-            </div>
           </div>
-        </div>
+          <Image 
+                      src={logo11} 
+                      alt="Framp" 
+                      width={14} 
+                      height={14}
+                      className="h-[90px] w-auto"
+                    />
+          </div>
 
        
 
         {/* Currency List */}
-        <div className="flex gap-3 overflow-x-auto pb-4 mb-0">
+        <div className="flex gap-3 overflow-x-auto pb-2 mb-3">
           {currencies.map(currency => (
-            <div key={currency.id} className="flex-shrink-0 bg-[#E3E2F5] dark:bg-[#E3E2F5] rounded-xl p-4 min-w-[146px] shadow-sm">
-              <div className="flex gap-2 items-center mb-0">
-                <span className="text-gray-900 dark:text-black font-bold">{currency.name}</span>
-                <span className={currency.change === 'up' ? 'text-green-500' : 'text-red-500 flex gap-4'}>
+            <div key={currency.id} className=" flex flex-col bg-[#E3E2F5] dark:bg-[#E3E2F5] border-box rounded-xl p-2 py-0  w-1/3 h-[56px] shadow-sm">
+              <div className="flex gap-2 items-center mt-2">
+                <span className="text-gray-900 text-[14px] dark:text-black font-bold">{currency.name}</span>
+                <span className={`text-[10px] ${currency.change === 'up' ? 'text-green-500' : 'text-red-500'} flex gap-2`}>
                 {currency.per}
                   {currency.change === 'up' ? ' ↑' : ' ↓'}  
                   
                 </span>
               </div>
               <div className="flex justify-between">
-              <p className="font-semibold text-gray-900 dark:text-black">$ {currency.amount}</p>
+              <p className="font-bold text-[10px] text-gray-900 dark:text-black">$ {currency.amount}</p>
               <Image 
                       src={currency.logo} 
                       alt="Framp" 
-                      width={80} 
-                      height={24}
-                      className="h-6 w-auto"
+                      width={14} 
+                      height={14}
+                      className="h-[20px] w-auto"
                     />
 </div>
             </div>
@@ -367,7 +346,7 @@ const DashboardPage = () => {
         </div>
 
            {/* Quick Access */}
-           <div className="mb-6">
+           <div className="mb-4">
           <h3 className={`font-semibold text-gray-900 text-{18px} mb-3 ${isDark ? 'dark text-white' : 'text-black'}`}>Quick Access</h3>
           <div className="grid grid-cols-4 gap-4">
             {quickAccessItems.map(item => (

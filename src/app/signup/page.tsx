@@ -30,22 +30,8 @@ function LoadingForm() {
 
 export default function SignupPage() {
   return (
-    <Layout>
-      <main className="min-h-screen bg-white dark:bg-background relative">
-        <BackgroundElements />
-
-        {/* Content */}
-        <div className="container relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 flex items-center justify-center min-h-[90vh]">
-          <div className="w-full max-w-md">
-            <h1 className="text-3xl font-bold text-center mb-8 text-black dark:text-white">
-              Join <span className="text-[#7b77b9]">FRAMP</span> Today
-            </h1>
-            <Suspense fallback={<LoadingForm />}>
+   
               <SignupForm />
-            </Suspense>
-          </div>
-        </div>
-      </main>
-    </Layout>
+           
   );
 } 
