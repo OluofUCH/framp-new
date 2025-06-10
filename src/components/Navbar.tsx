@@ -11,7 +11,7 @@ const Navbar = () => {
 
   useEffect(() => {
     setHasMounted(true);
-  }, []);
+  }, []); 
 
   const navItems = [
     { icon: "/images/home.svg", icon2: "/images/homeact.svg", label: 'Home', href: '/dashboard' },
@@ -23,7 +23,7 @@ const Navbar = () => {
   if (!hasMounted) return null; // Prevent hydration mismatch
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white dark:bg-[#1F1F1F] border-t border-gray-200 dark:border-gray-700 px-6 py-3 transition-colors">
+    <nav className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-sm bg-white dark:bg-[#1F1F1F] border-t border-gray-200 dark:border-gray-700 px-6 py-3 transition-colors">
       <div className="flex justify-between items-center">
         {navItems.map((item) => {
           const active = pathname === item.href;

@@ -75,11 +75,11 @@ export default function LoginForm() {
  
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen  bg-gray-50 w-full flex justify-center">
     
-
+<div className="flex flex-col w-full max-w-sm min-h-screen">
       {/* Main Content */}
-      <div className="flex-1 px-6 pt-8">
+      <div className="flex-1 w-full max-w-sm px-6 pt-8">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-gray-900 mb-6">
@@ -196,7 +196,7 @@ export default function LoginForm() {
         )}
       </div>
 
-  
+  </div>
     </div>
   );
 }
