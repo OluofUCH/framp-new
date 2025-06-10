@@ -90,18 +90,22 @@ export default function SignupForm() {
       setIsSubmitting(false);
     }
   };
+  const handleBack = () => {
+      window.location.href="/login"
+    
+  };
 return(
   <div className="min-h-screen bg-white flex flex-col">
   {/* Header */}
-  <div className="flex items-center justify-between p-4 bg-white border-b border-gray-200">
-    <button className="p-2 -ml-2">
+  <div className="flex items-center justify-between p-4 bg-white">
+    <button className="p-2 -ml-2" onClick={handleBack}>
       <ArrowLeft className="w-6 h-6 text-gray-600" />
     </button>
     <div className="flex-1" />
   </div>
 
   {/* Main Content */}
-  <div className="flex-1 px-6 py-8">
+  <div className="flex-1 px-6 py-2">
     <div className="max-w-sm mx-auto">
       <h1 className="text-2xl font-semibold text-gray-900 mb-2">Sign up</h1>
       <p className="text-gray-600 text-sm mb-8">
@@ -178,7 +182,7 @@ return(
             Creating Account...
           </span>
         ) : (
-          "Verify your Email"
+          "Create your account"
         )}
       </button>
       
