@@ -166,7 +166,7 @@ const DashboardPage = () => {
                   />
                 </span>
                 <div>
-                  <h3 className="font-semibold text-gray-900 text-xs">{features[0].title}</h3>
+                  <h3 className="font-bold text-gray-900 text-xs">{features[0].title}</h3>
                   <p className="text-[10px] text-nowrap text-gray-600 mt-1">{features[0].description}</p>
                 </div>
               </div>
@@ -183,7 +183,7 @@ const DashboardPage = () => {
                   />
                 </span>
                 <div>
-                  <h3 className="font-semibold text-gray-900 text-sm">{features[2].title}</h3>
+                  <h3 className="font-bold text-gray-900 text-sm">{features[2].title}</h3>
                   <p className="text-xs text-gray-600 mt-1">{features[2].description}</p>
                 </div>
               </div>
@@ -203,7 +203,7 @@ const DashboardPage = () => {
                   />
                 </span>
                 <div>
-                  <h3 className="font-semibold text-gray-900 text-sm">{features[1].title}</h3>
+                  <h3 className="font-bold text-gray-900 text-sm">{features[1].title}</h3>
                   <p className="text-xs text-gray-600 mt-1">{features[1].description}</p>
                 </div>
               </div>
@@ -220,7 +220,7 @@ const DashboardPage = () => {
                   />
                 </span>
                 <div>
-                  <h3 className="font-semibold text-gray-900 text-xs">{features[3].title}</h3>
+                  <h3 className="font-bold text-gray-900 text-xs">{features[3].title}</h3>
                   <p className="text-[10px] text-nowrap text-gray-600 mt-1">{features[3].description}</p>
                 </div>
               </div>

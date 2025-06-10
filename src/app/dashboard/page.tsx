@@ -294,7 +294,7 @@ const DashboardPage = () => {
 
           {/* Balance Card */}
           <div className="bg-gradient-to-tr flex justify-between from-[#7A73C1] via-[#443F91] to-[#161737] rounded-2xl p-4 text-white mb-6">
-            <div>
+            <div className="w-full">
               <div className="flex flex-col items-start">
                 <div className="rounded-lg px-0 py-0 text-[7px]">
                   <div className="flex items-center gap-2">
@@ -336,7 +336,7 @@ const DashboardPage = () => {
               alt="Framp" 
               width={14} 
               height={14}
-              className="h-[130px] w-auto"
+              className="h-[130px] relative left-0 w-auto"
             />
           </div>
 
