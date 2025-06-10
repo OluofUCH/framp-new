@@ -336,7 +336,7 @@ const DashboardPage = () => {
               alt="Framp" 
               width={14} 
               height={14}
-              className="h-[130px] sticky left-1/2 ml-10  w-auto"
+              className="h-[130px] sticky w-auto"
             />
           </div>
 
