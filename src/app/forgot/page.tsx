@@ -136,7 +136,7 @@ export default function ForgotPasswordFlow() {
 
   const getStepDescription = () => {
     switch (currentStep) {
-      case 1: return "Please Enter Your Email Address to Receive a Verification Code";
+      case 1: return "Please Enter Your Email Address to Receive a Verification Link";
       case 2: return "A Link Has Been Sent to Your Mail. Kindly go to Your Email and Confirm your Account";
       case 3: return "Input a New Password, it Must be Different From the Old Password";
       case 4: return "Your New Password has been set. Kindly go Back to Login to Access Your Account";

@@ -21,6 +21,7 @@ import type { NextRequest } from 'next/server';
 const DashboardPage = () => {
   const [isDark, setIsDark] = useState(false);
   const [time, setTime] = useState("");
+  const [logs, setLogs] = useState("");
 
   // Initialize theme from system preference or localStorage
   useEffect(() => {
@@ -86,17 +87,25 @@ const DashboardPage = () => {
       icon: '↑'
     }
   ];
+  const morn = "/images/morning.svg";
+  const aft = "/images/afternoon.svg";
+  const eve = "/images/evening.svg";
+  const nig = "/images/night.svg";
 
   useEffect(() => {
     const hour = new Date().getHours();
     if (hour >= 5 && hour < 12) {
       setTime("Good Morning");
+      setLogs(morn);
     } else if (hour >= 12 && hour < 17) {
       setTime("Good Afternoon");
+      setLogs(aft);
     } else if (hour >= 17 && hour < 20) {
       setTime("Good Evening");
+      setLogs(eve);
     } else {
       setTime("Good Night");
+      setLogs(nig);
     }
   }, []);
 
@@ -111,11 +120,15 @@ const DashboardPage = () => {
   const logoSrc9 = "/images/utility.png";
   const logoSrc10 = "/images/more.png";
   const logo11 = "/images/fr.svg";
+  const logo12 = "/images/coin.svg";
+  const logo13 = "/images/coin2.svg";
+  const logo14 = "/images/sun.svg";
+  const logo15 = "/images/moon.svg";
 
   const currencies = [
     { id: 1, name: 'USDT', amount: 1024, change: 'up', logo: logoSrc5, per: "0.01%" },
-    { id: 2, name: 'USDC', amount: 1.0587, change: 'down', logo: logoSrc5, per: "0.01%" },
-    { id: 3, name: 'USD', amount: 1.12, change: 'up', logo: logoSrc5, per: "0.01%" }
+    { id: 2, name: 'USDC', amount: 1.0587, change: 'down', logo: logo12, per: "0.01%" },
+    { id: 3, name: 'USD', amount: 1.12, change: 'up', logo: logo13, per: "0.01%" }
   ];
   const quickAccessItems = [
     { id: 1, name: 'Onramp', icon: logoSrc8, color: '#E3E2F5' },
@@ -130,6 +143,7 @@ const DashboardPage = () => {
   const { logout } = useAuth();
   const router = useRouter();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [als, setAls] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [userData, setUserData] = useState<any>(null);
@@ -164,6 +178,7 @@ const DashboardPage = () => {
         setUserData(data.user);
       } catch (err: any) {
         setError(err.message || "An error occurred");
+        setals(true);
       } finally {
         setIsLoading(false);
       }
@@ -186,17 +201,17 @@ const DashboardPage = () => {
     }
   };
 
-  // if(!userData){
-  //   window.location.href = "/login";
+  if(als){
+    window.location.href = "/login";
 
-  //   return (
-  //     <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center">
-  //       <p className="text-white/70">Login session expired</p>
-  //       <p className="text-white/70">Navigating you to  login page</p>
+    return (
+      <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center">
+        <p className="text-white/70">Login session expired</p>
+        <p className="text-white/70">Navigating you to  login page</p>
 
-  //     </div>
-  //   );
-  // }
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (
@@ -240,28 +255,49 @@ const DashboardPage = () => {
               <span>👤</span>
             </div>
 
-            <div className="flex flex-col">
-            <div className="flex items-center">
+            <div className="flex flex-col gap-0 py-0">
+            <div className="flex items-center text-sm text-[16px]">
               <p className="text-sm font-light text-gray-600 dark:text-white">Hello,</p>
               <p className="font-semibold text-gray-900 dark:text-white">{userData.profile?.email?.split('@')[0]}</p>
             </div>
-            <p className="text-sm font-light text-gray-600 dark:text-white">{time}</p>
+            <div className="flex items-center gap-2">
+            <p className="text-[12px] font-light text-gray-600 dark:text-white">{time}</p>      
+            <Image 
+                            src={logs} 
+                            alt="Framp" 
+                            width={10} 
+                            height={10}
+                            className="h-[10px] w-auto"
+                          />
+                          </div>
             </div>
           </div>
           <div className="flex gap-3">
             <button 
               onClick={toggleTheme}
-              className="p-2 rounded-full bg-gray-200 dark:bg-gray-100 text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+              className="p-2 rounded-md bg-gray-200 dark:bg-gray-100 text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
             >
-              {isDark ? <FaSun className="w-5 h-5" /> : <FaMoon className="w-5 h-5" />}
+              {isDark ?  <Image 
+                            src={logo14} 
+                            alt="Framp" 
+                            width={10} 
+                            height={10}
+                            className="h-[14px] w-auto"
+                          />:  <Image 
+                          src={logo15} 
+                          alt="Framp" 
+                          width={10} 
+                          height={10}
+                          className="h-[14px] w-auto"
+                        />}
             </button>
             <button className="p-2 rounded-md bg-gray-200 dark:bg-[#E3E2F5] text-gray-600 dark:text-gray-300">
             <Image 
                             src={logoSrc2} 
                             alt="Framp" 
-                            width={18} 
-                            height={18}
-                            className="h-4 w-auto"
+                            width={10} 
+                            height={10}
+                            className="h-[14px] w-auto"
                           />
             </button>
           </div>
@@ -273,7 +309,7 @@ const DashboardPage = () => {
           <div>
           <div className="flex flex-col items-start">
             <div className="rounded-lg px-0 py-0 text-[7px]">
-              <div className="flex gap-2">
+              <div className="flex items-center gap-2">
               <Image 
                             src={logoSrc6} 
                             alt="Framp" 
@@ -313,7 +349,7 @@ const DashboardPage = () => {
                       alt="Framp" 
                       width={14} 
                       height={14}
-                      className="h-[90px] w-auto"
+                      className="h-[130px] w-auto"
                     />
           </div>
 

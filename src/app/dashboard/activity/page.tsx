@@ -10,6 +10,7 @@ import {
   FaHistory,
   FaUser
 } from 'react-icons/fa';
+import { ArrowLeft } from "lucide-react";
 import { IoStatsChart } from 'react-icons/io5';
 import Image from 'next/image';
 
@@ -17,7 +18,7 @@ const DashboardPage = () => {
   const [isDark, setIsDark] = useState(false);
   const logoSrc = "/images/logo.svg";
   const logoSrc2 = "/images/as.png";
-  const logoSrc3 = "/images/image 3.png";
+  const logoSrc3 = "/images/image 3.svg";
   const logoSrc4 = "/images/Vector.png";
   
   const logoSrc7 = "/images/offramp.png";
@@ -78,13 +79,17 @@ const DashboardPage = () => {
       color: 'bg-green-100'
     }
   ];
+  const handle = () => {
+window.location.href="/dashboard";
+  }
+
  
   return (
     <div className={`min-h-screen ${isDark ? 'dark bg-[#1F1F1F]' : 'bg-white'}`}>
       {/* Header */}
       <header className="px-4 pt-4 pb-2 flex items-center justify-between">
-        <button className="p-2">
-          <FaHistory className="w-6 h-6 text-gray-600" />
+      <button onClick={handle} className="p-2">
+          <ArrowLeft className="w-6 h-6 text-gray-600" />
         </button>
         <h1 className={`text-xl font-semibold  ${isDark ? 'dark text-white' : 'text-gray-900'}`}>Activity</h1>
         <button className="p-2">
@@ -118,7 +123,7 @@ const DashboardPage = () => {
               </span>
             </div>
           </div>
-          <div className="text-xl rounded-lg flex p-1">
+          <div className="text-xl justify-between rounded-lg flex p-1">
           <Image 
               src={logoSrc3} 
               alt="Framp" 
@@ -126,9 +131,16 @@ const DashboardPage = () => {
               height={180}
               className="h-12 w-auto"
             />
+               <Image 
+              src={logo11} 
+              alt="Framp" 
+              width={180} 
+              height={180}
+              className="h-[150px] w-auto"
+            />
             </div>
-          <div className="flex items-cente justify-center gap-2 mt-4">
-            <div className=" text-[20px] text-white rounded-lg px-4 py-2">
+          <div className="flex items-cente justify-center gap-2 mt-[-60px]">
+            <div className=" text-[26px] text-white rounded-lg px-4 py-2 pt-0">
 2345 **** **** 5487
             </div>
           </div>
@@ -153,7 +165,7 @@ const DashboardPage = () => {
             /></span>
               <div>
                 <h3 className="font-semibold text-gray-900 text-xs">{features[0].title}</h3>
-                <p className="text-[10px] text-gray-600 mt-1">{features[0].description}</p>
+                <p className="text-[10px] text-nowrap text-gray-600 mt-1">{features[0].description}</p>
               </div>
             </div>
 
