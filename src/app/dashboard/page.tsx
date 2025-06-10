@@ -116,7 +116,7 @@ const DashboardPage = () => {
   const logoSrc5 = "/images/Group.png";
   const logoSrc6 = "/images/sol.png";
   const logoSrc7 = "/images/offramp.svg";
-  const logoSrc8 = "/images/Onramp.svg";
+  const logoSrc8 = "/images/onramp.svg";
   const logoSrc9 = "/images/utility.svg";
   const logoSrc10 = "/images/more.svg";
   const logo11 = "/images/fr.svg";

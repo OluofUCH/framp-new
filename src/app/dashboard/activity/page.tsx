@@ -22,7 +22,7 @@ const DashboardPage = () => {
   const logoSrc4 = "/images/Vector.png";
   
   const logoSrc7 = "/images/offramp.svg";
-  const logoSrc8 = "/images/Onramp.svg";
+  const logoSrc8 = "/images/onramp.svg";
   const logoSrc9 = "/images/utility.svg";
   const logoSrc10 = "/images/save.svg";
   const logo11 = "/images/fr.svg";
