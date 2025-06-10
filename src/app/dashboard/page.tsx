@@ -178,7 +178,7 @@ const DashboardPage = () => {
         setUserData(data.user);
       } catch (err: any) {
         setError(err.message || "An error occurred");
-        setals(true);
+        setAls(true);
       } finally {
         setIsLoading(false);
       }
