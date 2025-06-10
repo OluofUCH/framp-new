@@ -110,23 +110,24 @@ const DashboardPage = () => {
   }, []);
 
   const logoSrc = "/images/scan.png";
-  const logoSrc2 = "/images/notification.png";
+  const logoSrc2 = "/images/notification.svg";
   const logoSrc3 = "/images/as.png";
   const logoSrc4 = "/images/Vector.png";
   const logoSrc5 = "/images/Group.png";
   const logoSrc6 = "/images/sol.png";
-  const logoSrc7 = "/images/offramp.png";
-  const logoSrc8 = "/images/Onramp.png";
-  const logoSrc9 = "/images/utility.png";
-  const logoSrc10 = "/images/more.png";
+  const logoSrc7 = "/images/offramp.svg";
+  const logoSrc8 = "/images/Onramp.svg";
+  const logoSrc9 = "/images/utility.svg";
+  const logoSrc10 = "/images/more.svg";
   const logo11 = "/images/fr.svg";
   const logo12 = "/images/coin.svg";
   const logo13 = "/images/coin2.svg";
+  const logo133 = "/images/coin3.svg";
   const logo14 = "/images/sun.svg";
   const logo15 = "/images/moon.svg";
 
   const currencies = [
-    { id: 1, name: 'USDT', amount: 1024, change: 'up', logo: logoSrc5, per: "0.01%" },
+    { id: 1, name: 'USDT', amount: 1024, change: 'up', logo: logo133, per: "0.01%" },
     { id: 2, name: 'USDC', amount: 1.0587, change: 'down', logo: logo12, per: "0.01%" },
     { id: 3, name: 'USD', amount: 1.12, change: 'up', logo: logo13, per: "0.01%" }
   ];

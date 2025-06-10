@@ -21,10 +21,10 @@ const DashboardPage = () => {
   const logoSrc3 = "/images/image 3.svg";
   const logoSrc4 = "/images/Vector.png";
   
-  const logoSrc7 = "/images/offramp.png";
-  const logoSrc8 = "/images/Onramp.png";
-  const logoSrc9 = "/images/utility.png";
-  const logoSrc10 = "/images/more.png";
+  const logoSrc7 = "/images/offramp.svg";
+  const logoSrc8 = "/images/Onramp.svg";
+  const logoSrc9 = "/images/utility.svg";
+  const logoSrc10 = "/images/save.svg";
   const logo11 = "/images/fr.svg";
   // Initialize theme from system preference or localStorage
   useEffect(() => {
@@ -55,28 +55,28 @@ const DashboardPage = () => {
       title: 'Onramp',
       description: 'Convert your cash to crypto',
       icon: logoSrc8,
-      color: 'bg-purple-100'
+      color: '#808080'
     },
     {
       id: 2,
       title: 'Offramp',
       description: 'Convert your crypto to cash',
       icon: logoSrc7,
-      color: 'bg-gray-100'
+      color: '#808080'
     },
     {
       id: 3,
       title: 'Utility',
       description: 'Pay bill and Utilities easily',
       icon: logoSrc9,
-      color: 'bg-pink-100'
+      color: '#808080'
     },
     {
       id: 4,  
       title: 'Safe Box',
       description: 'Save daily, weekly or monthly',
       icon: logoSrc10,
-      color: 'bg-green-100'
+      color: '#808080'
     }
   ];
   const handle = () => {
