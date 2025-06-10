@@ -17,9 +17,9 @@ import Image from 'next/image';
 const DashboardPage = () => {
   const [isDark, setIsDark] = useState(false);
   const logoSrc = "/images/logo.svg";
-  const logoSrc2 = "/images/as.png";
+  const logoSrc2 = "/images/frampo.svg";
   const logoSrc3 = "/images/image 3.svg";
-  const logoSrc4 = "/images/Vector.png";
+  const logoSrc4 = "/images/aud.svg";
   
   const logoSrc7 = "/images/offramp.svg";
   const logoSrc8 = "/images/onramp.svg";
@@ -109,7 +109,6 @@ window.location.href="/dashboard";
               height={24}
               className="h-6 w-auto"
             />
-            <p>ramp</p>
             </div>
             <div className="w-8 h-8 flex items-center justify-center">
               <span className="text-2xl">
