@@ -55,28 +55,28 @@ const DashboardPage = () => {
       title: 'Onramp',
       description: 'Convert your cash to crypto',
       icon: logoSrc8,
-      color: '#808080'
+      color: '#E3E2F5'
     },
     {
       id: 2,
       title: 'Offramp',
       description: 'Convert your crypto to cash',
       icon: logoSrc7,
-      color: '#808080'
+      color: '#E3E2F5'
     },
     {
       id: 3,
       title: 'Utility',
       description: 'Pay bill and Utilities easily',
       icon: logoSrc9,
-      color: '#808080'
+      color: '#E3E2F5'
     },
     {
       id: 4,  
       title: 'Safe Box',
       description: 'Save daily, weekly or monthly',
       icon: logoSrc10,
-      color: '#808080'
+      color: '#E3E2F5'
     }
   ];
   const handle = () => {
