@@ -323,11 +323,11 @@ useEffect(() => {
               )}
 
               {/* Proceed Button */}
-              <div className="p-4 pb-auto">
+              <div className="p-4 mb-[20px]">
                 <button
                   onClick={handleProceed}
                   disabled={isSubmitting || !amount || parseFloat(amount) <= 0}
-                  className="w-full bg-purple-600 hover:bg-purple-700 disabled:bg-purple-400 text-white py-4 rounded-2xl font-semibold text-lg transition-colors"
+                  className="w-full bg-purple-600 mb-[45px] hover:bg-purple-700 disabled:bg-purple-400 text-white py-4 rounded-2xl font-semibold text-lg transition-colors"
                 >
                   {isSubmitting ? 'Processing...' : 'Proceed'}
                 </button>
