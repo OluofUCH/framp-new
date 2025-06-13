@@ -120,7 +120,7 @@ const DashboardPage = () => {
       <div className={`w-full max-w-sm min-h-screen transition-colors duration-300 dark:bg-[#1F1F1F] bg-white shadow-xl`}>
         {/* Header */}
         <header className="px-4 pt-2 pb-0">
-          <Topbar  />
+          <Topbar name={userData.email.split('@')[0].replace(/[._-]/g, '')} />
 
          <Balance />
       <Currency />
