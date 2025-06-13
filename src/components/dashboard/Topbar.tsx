@@ -6,7 +6,11 @@ import {
 } from 'react-icons/fa';
 import Image from 'next/image';
 
-const Topbar =  (props)  => {
+interface TopbarProps {
+  name: string;
+}
+
+const Topbar = (props: TopbarProps) => {
   const morn = "/images/morning.svg";
   const aft = "/images/afternoon.svg";
   const eve = "/images/evening.svg";
