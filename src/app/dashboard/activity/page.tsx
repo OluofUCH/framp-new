@@ -13,6 +13,7 @@ import {
 import { ArrowLeft } from "lucide-react";
 import { IoStatsChart } from 'react-icons/io5';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const DashboardPage = () => {
   const [isDark, setIsDark] = useState(false);
@@ -50,34 +51,45 @@ const DashboardPage = () => {
     }
   }, [isDark]);
 
+  const quickAccessItems = [
+    { id: 1, name: 'Onramp', icon: logoSrc8, color: '#E3E2F5',  href: '/onramp' },
+    { id: 2, name: 'Utility', icon: logoSrc9, color: '#E3E2F5',  href: '/' },
+    { id: 3, name: 'Offramp', icon: logoSrc7, color: '#E3E2F5',  href: '/offramp' },
+    { id: 4, name: 'More', icon: logoSrc10, color: '#E3E2F5',  href: '/' }
+  ];
+
   const features = [
     {
       id: 1,
       title: 'Onramp',
       description: 'Convert your cash to crypto',
       icon: logoSrc8,
-      color: 'bg-[#E3E2F5]'
+      color: 'bg-[#E3E2F5]',
+      href: '/onramp'
     },
     {
       id: 2,
       title: 'Offramp',
       description: 'Convert your crypto to cash',
       icon: logoSrc7,
-      color: 'bg-[#E3E2F5]'
+      color: 'bg-[#E3E2F5]',
+      href: '/offramp'
     },
     {
       id: 3,
       title: 'Utility',
       description: 'Pay bill and Utilities easily',
       icon: logoSrc9,
-      color: 'bg-[#E3E2F5]'
+      color: 'bg-[#E3E2F5]',
+      href: '/'
     },
     {
       id: 4,  
       title: 'Safe Box',
       description: 'Save daily, weekly or monthly',
       icon: logoSrc10,
-      color: 'bg-[#E3E2F5]'
+      color: 'bg-[#E3E2F5]',
+      href: '/'
     }
   ];
   
@@ -92,8 +104,7 @@ const DashboardPage = () => {
       <div className={`w-full max-w-sm ${isDark ? 'dark bg-[#1F1F1F]' : 'bg-white'} shadow-xl`}>
         {/* Header */}
         <header className="px-4 pt-4 pb-2 flex items-center justify-between">
-          <button onClick={handle} className="p-2">
-            <ArrowLeft className="w-6 h-6 text-gray-600" />
+          <button className="p-2">
           </button>
           <h1 className={`text-xl font-semibold ${isDark ? 'dark text-white' : 'text-gray-900'}`}>Activity</h1>
           <button className="p-2">
@@ -154,8 +165,10 @@ const DashboardPage = () => {
           <div className="grid grid-cols-2 gap-4 h-64">
             {/* Left Column */}
             <div className="flex flex-col gap-4">
+
               {/* Utility - Short */}
-              <div className={`${features[0].color} rounded-2xl p-4 h-20 flex flex-col justify-between shadow-sm`}>
+              <Link href={features[0].href}>
+              <div className={`${features[0].color} hover:bg-[#7A73C1] rounded-2xl p-4 h-20 flex flex-col justify-between shadow-sm`}>
                 <span className="text-2xl">
                   <Image 
                     src={features[0].icon} 
@@ -170,9 +183,12 @@ const DashboardPage = () => {
                   <p className="text-[10px] text-nowrap text-gray-600 mt-1">{features[0].description}</p>
                 </div>
               </div>
+              </Link>
+
 
               {/* Onramp - Tall */}
-              <div className={`${features[2].color} rounded-2xl p-4 flex-1 flex flex-col pt-6 shadow-sm`}>
+              <Link href={features[2].href}>
+              <div className={`${features[2].color} hover:bg-[#7A73C1] rounded-2xl p-4 flex-1 flex flex-col pt-6 shadow-sm`}>
                 <span className="text-2xl">
                   <Image 
                     src={features[2].icon} 
@@ -187,12 +203,16 @@ const DashboardPage = () => {
                   <p className="text-xs text-gray-600 mt-1">{features[2].description}</p>
                 </div>
               </div>
+              </Link>
             </div>
+            
 
             {/* Right Column */}
             <div className="flex flex-col gap-4">
               {/* Safe Box - Tall */}
-              <div className={`${features[1].color} rounded-2xl p-4 flex-1 flex flex-col pt-6 shadow-sm`}>
+              
+              <Link href={features[1].href}>
+              <div className={`${features[1].color} hover:bg-[#7A73C1] rounded-2xl p-4 flex-1 flex flex-col pt-6 shadow-sm`}>
                 <span className="text-2xl">
                   <Image 
                     src={features[1].icon} 
@@ -207,9 +227,12 @@ const DashboardPage = () => {
                   <p className="text-xs text-gray-600 mt-1">{features[1].description}</p>
                 </div>
               </div>
+              </Link>
 
               {/* Offramp - Short */}
-              <div className={`${features[3].color} rounded-2xl p-4 h-20 flex flex-col justify-between shadow-sm`}>
+              
+              <Link href={features[3].href}>
+              <div className={`${features[3].color} hover:bg-[#7A73C1] rounded-2xl p-4 h-20 flex flex-col justify-between shadow-sm`}>
                 <span className="text-2xl">
                   <Image 
                     src={features[3].icon} 
@@ -224,6 +247,7 @@ const DashboardPage = () => {
                   <p className="text-[10px] text-nowrap text-gray-600 mt-1">{features[3].description}</p>
                 </div>
               </div>
+              </Link>
             </div>
           </div>
         </div>
