@@ -123,8 +123,8 @@ const DashboardPage = () => {
           <Topbar  />
 
          <Balance />
-
       <Currency />
+        
 
         <Quick />
         </header>
