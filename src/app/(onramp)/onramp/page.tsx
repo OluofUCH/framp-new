@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
@@ -49,7 +49,7 @@ export default function OfframpPage() {
 
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [amount, setAmount] = useState('');
-  const [currency, setCurrency] = useState('USD');
+  const [currency, setCurrency] = useState<keyof typeof EXCHANGE_RATES>('USD');
   const [receiving, setReceiving] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState('bank_transfer');
   const [bankDetails, setBankDetails] = useState({
@@ -129,7 +129,7 @@ export default function OfframpPage() {
   };
 
   // Handle form submission
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     
     if (!validateForm()) return;
@@ -148,8 +148,8 @@ export default function OfframpPage() {
       
       // Move to confirmation step
       setStep(4);
-    } catch (err) {
-      setError(err.message || 'Transaction failed. Please try again.');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Transaction failed. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -270,7 +270,7 @@ export default function OfframpPage() {
                       <div className="flex items-center gap-2">
                         <select
                           value={currency}
-                          onChange={(e) => setCurrency(e.target.value)}
+                          onChange={(e) => setCurrency(e.target.value as keyof typeof EXCHANGE_RATES)}
                           className="bg-transparent border-none outline-none text-sm font-medium"
                         >
                           <option className="text-white" value="USD">USDT</option>

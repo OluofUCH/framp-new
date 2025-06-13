@@ -49,7 +49,7 @@ export default function OfframpPage() {
 
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [amount, setAmount] = useState('');
-  const [currency, setCurrency] = useState('USD');
+  const [currency, setCurrency] = useState<'USD' | 'EUR' | 'GBP'>('USD');
   const [receiving, setReceiving] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState('bank_transfer');
   const [bankDetails, setBankDetails] = useState({
@@ -130,7 +130,7 @@ useEffect(() => {
   };
 
   // Handle form submission
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
     if (!validateForm()) return;
@@ -149,8 +149,8 @@ useEffect(() => {
       
       // Move to confirmation step
       setStep(4);
-    } catch (err) {
-      setError(err.message || 'Transaction failed. Please try again.');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Transaction failed. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -242,7 +242,7 @@ useEffect(() => {
                       <div className="flex items-center gap-2">
                         <select
                           value={currency}
-                          onChange={(e) => setCurrency(e.target.value)}
+                          onChange={(e) => setCurrency(e.target.value as 'USD' | 'EUR' | 'GBP')}
                           className="bg-transparent border-none outline-none text-sm font-medium"
                         >
                           <option className="text-black flex" value="USD">
