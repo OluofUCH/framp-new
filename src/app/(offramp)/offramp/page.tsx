@@ -188,7 +188,7 @@ useEffect(() => {
       {step === 1 && (
         <div className="max-w-sm mx-auto min-h-screen flex flex-col">
           {/* Header */}
-          <div className="flex items-center justify-between p-4 pt-12">
+          <div className="flex items-center justify-between p-4 pt-6">
             <div className="flex items-center gap-3">
               <Link href="/dashboard" className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
                 <ArrowLeft className="w-5 h-5" />
