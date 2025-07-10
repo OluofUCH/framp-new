@@ -24,9 +24,9 @@ const Quick = () =>{
 
     const quickAccessItems = [
         { id: 1, name: 'Onramp', icon: logoSrc8, color: '#E3E2F5',  href: '/onramp' },
-        { id: 2, name: 'Utility', icon: logoSrc9, color: '#E3E2F5',  href: '/' },
+        { id: 2, name: 'Utility', icon: logoSrc9, color: '#E3E2F5',  href: '/dashboard' },
         { id: 3, name: 'Offramp', icon: logoSrc7, color: '#E3E2F5',  href: '/offramp' },
-        { id: 4, name: 'More', icon: logoSrc10, color: '#E3E2F5',  href: '/' }
+        { id: 4, name: 'More', icon: logoSrc10, color: '#E3E2F5',  href: '/dashboard' }
       ];
       
 return(
