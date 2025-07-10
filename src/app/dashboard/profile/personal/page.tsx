@@ -3,11 +3,8 @@
  import { useState } from 'react';
  import { ChevronLeft, ChevronRight, Plus, ArrowLeft, User } from 'lucide-react';
 import Link from "next/link"
- interface Props {
-  name: string;
-}
 
- const PersonalInfoScreen = (props: Props) => {
+ const PersonalInfoScreen = () => {
    const [personalInfo, setPersonalInfo] = useState({
     firstName: "",
     lastName: "",
