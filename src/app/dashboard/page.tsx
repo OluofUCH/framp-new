@@ -66,7 +66,7 @@ const DashboardPage = () => {
 
         if (!res.ok) {
           if (res.status === 401) {
-            router.push("/login");
+            // router.push("/login");
             return;
           }
           const errorData = await res.json();
