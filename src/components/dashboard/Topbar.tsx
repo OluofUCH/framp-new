@@ -75,7 +75,7 @@ const logoSrc2 = "/images/notification.svg";
                 <div className="flex items-center text-sm text-[16px]">
                   <p className="text-sm font-light text-gray-600 dark:text-white">Hello,</p>
                   <p className="font-semibold text-gray-900 dark:text-white">
-                    user001
+                    {props.name}
                   
                     </p>
                 </div>
