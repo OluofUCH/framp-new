@@ -54,7 +54,7 @@ export default function ProfileScreen () {
       </div>
 
       {/* Menu Items */}
-      <div className="px-4 space-y-1">
+      <div className="px-4 space-y-1 mb-[4rem]">
         {Menu.map( ( (item,index) =>
         <Link key={index} 
         className="flex items-center justify-between py-4 border-b border-gray-100 cursor-pointer"
@@ -73,14 +73,13 @@ export default function ProfileScreen () {
           className="flex items-center justify-between py-4 pt-6 border-b border-gray-100 cursor-pointer"
           href="/dashboard/profile/personal"
         >
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-3 ">
             <LogOut className="w-8 h-8 text-red-600 text-lg bg-gray-300 rounded-full p-2" />
             <span className="text-red-600">Logout</span>
           </div>
           <ChevronRight className="w-5 h-5 text-red-600" />
         </Link>
       
-      <div className="mt-[30rem]"></div>
       </div>
 
     </div>
