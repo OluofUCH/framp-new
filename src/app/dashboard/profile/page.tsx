@@ -80,7 +80,7 @@ export default function ProfileScreen () {
           <ChevronRight className="w-5 h-5 text-red-600" />
         </Link>
       
-      <div className="mt-[20rem]"></div>
+      <div className="mt-[30rem]"></div>
       </div>
 
     </div>
