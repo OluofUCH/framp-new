@@ -1,7 +1,6 @@
 "use client"
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Plus, ArrowLeft, User, Banknote, HelpCircle, InfoIcon, LogOut } from 'lucide-react';
-import { cardCredit} from "@lucide/lab"
 import Link from "next/link";
 import Image from "next/image";
 
