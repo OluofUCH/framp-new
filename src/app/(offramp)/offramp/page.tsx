@@ -356,9 +356,15 @@ useEffect(() => {
           {/* Success Content */}
           <div className="flex-1 flex flex-col items-center justify-center px-8 text-center">
             {/* Success Icon */}
-            <div className="w-24 h-24 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-8">
-              <Check className="w-12 h-12 text-green-600 dark:text-green-400" />
-            </div>
+           <div className="relative">
+                                                      <Image 
+                                                                         src="/images/koala.svg"
+                                                                         alt="Framp" 
+                                                                         width={80} 
+                                                                         height={24}
+                                                                         className="h-48 w-auto"
+                                                                       />
+                                                   </div>
 
             {/* Title */}
             <h1 className="text-2xl font-bold mb-4">Transaction Processing!</h1>

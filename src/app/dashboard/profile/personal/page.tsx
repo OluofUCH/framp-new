@@ -2,7 +2,8 @@
  
  import { useState } from 'react';
  import { ChevronLeft, ChevronRight, Plus, ArrowLeft, User } from 'lucide-react';
-import Link from "next/link"
+import Link from "next/link";
+import Image from "next/image";
 
  const PersonalInfoScreen = () => {
    const [personalInfo, setPersonalInfo] = useState({
@@ -31,15 +32,14 @@ return(
       {/* Profile Picture Section */}
       <div className="flex flex-col items-center px-4 py-6">
         <div className="relative">
-          <div className="w-24 h-24 rounded-full bg-gradient-to-b from-teal-400 to-teal-600 p-1">
-            <div className="w-full h-full rounded-full overflow-hidden bg-white">
-              <div className="w-full h-8 bg-gradient-to-r from-blue-200 via-pink-200 to-yellow-200"></div>
-              <div className="w-full h-16 bg-blue-600 flex items-center justify-center">
-                <div className="w-8 h-8 bg-orange-400 rounded-full"></div>
-              </div>
-            </div>
-          </div>
-          <div className="absolute -bottom-1 -right-1 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                    <Image 
+                                       src="/images/profilepic.svg"
+                                       alt="Framp" 
+                                       width={80} 
+                                       height={24}
+                                       className="h-32 w-auto"
+                                     />
+          <div className="absolute -bottom-1 -right-1 w-8 h-8 bg-[#443f91] rounded-full flex items-center justify-center">
             <Plus className="w-5 h-5 text-white" />
           </div>
         </div>
@@ -83,7 +83,7 @@ return(
       <div className="px-4 mt-8">
         <button
           onClick={handleUpdateInfo}
-          className="w-full bg-blue-600 text-white py-4 rounded-lg text-center font-medium hover:bg-blue-700 transition-colors"
+          className="w-full bg-[#443f91] text-white py-4 rounded-lg text-center font-medium hover:bg-[#625cb9] transition-colors"
         >
           Update Information
         </button>

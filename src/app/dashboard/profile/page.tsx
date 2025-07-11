@@ -1,11 +1,35 @@
 "use client"
 import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, Plus, ArrowLeft, User } from 'lucide-react';
-import Link from "next/link"
+import { ChevronLeft, ChevronRight, Plus, ArrowLeft, User, Banknote, HelpCircle, InfoIcon, LogOut } from 'lucide-react';
+import { cardCredit} from "@lucide/lab"
+import Link from "next/link";
+import Image from "next/image";
 
 export default function ProfileScreen () {
+  const Menu = [
+    {name:"Personal Information",
+      icon:  <User className="w-8 h-8 text-black text-lg bg-gray-300 rounded-full p-2" />,
+      link: "/dashboard/profile/personal"
+    },
+    {name:"Link Bank Account",
+      icon:  <Banknote className="w-8 h-8 text-black text-lg bg-gray-300 rounded-full p-2" />,
+      link: "/dashboard/profile/bankaccount"
+    },
+    {name:"Help and Support",
+      icon:  <InfoIcon className="w-8 h-8 text-black text-lg bg-gray-300 rounded-full p-2" />,
+      link: "/dashboard/profile/personal"
+    },
+    {name:"Card Settings",
+      icon:  <User className="w-8 h-8 text-black text-lg bg-gray-300 rounded-full p-2" />,
+      link: "/dashboard/profile/personal"
+    },
+    {name:"FAQ",
+      icon:  <HelpCircle className="w-8 h-8 text-black text-lg bg-gray-300 rounded-full p-2" />,
+      link: "/dashboard/profile/faq"
+    },
+  ]
     return(
-    <div className="min-h-screen mx-auto max-w-sm bg-white">
+    <div className="min-h-screen overflow-scroll mx-auto max-w-sm bg-white">
     
 
      <div className="flex items-center justify-between p-4 bg-white border-b border-gray-200">
@@ -19,80 +43,45 @@ export default function ProfileScreen () {
       {/* Profile Section */}
       <div className="flex flex-col items-center px-4 py-6">
         <div className="relative">
-          <div className="w-24 h-24 rounded-full bg-gradient-to-b from-teal-400 to-teal-600 p-1">
-            <div className="w-full h-full rounded-full overflow-hidden bg-white">
-              <div className="w-full h-8 bg-gradient-to-r from-blue-200 via-pink-200 to-yellow-200"></div>
-              <div className="w-full h-16 bg-blue-600 flex items-center justify-center">
-                <div className="w-8 h-8 bg-orange-400 rounded-full"></div>
-              </div>
-            </div>
-          </div>
+           <Image 
+                              src="/images/profilepic.svg"
+                              alt="Framp" 
+                              width={80} 
+                              height={24}
+                              className="h-32 w-auto"
+                            />
         </div>
-        <h2 className="text-xl font-semibold mt-4">Stephen Ned</h2>
+        <h2 className="text-xl text-black font-semibold mt-4">Stephen Ned</h2>
       </div>
 
       {/* Menu Items */}
       <div className="px-4 space-y-1">
-        <Link 
-          className="flex items-center justify-between py-4 border-b border-gray-100 cursor-pointer"
+        {Menu.map( ( (item,index) =>
+        <Link key={index} 
+        className="flex items-center justify-between py-4 border-b border-gray-100 cursor-pointer"
+        href={item.link}
+        >
+          <div className="flex items-center space-x-3">
+            {item.icon}
+            <span className="text-gray-900">{item.name}</span>
+          </div>
+          <ChevronRight className="w-5 h-5 text-black" />
+        </Link>
+      ))}
+        
+       
+          <Link 
+          className="flex items-center justify-between py-4 pt-6 border-b border-gray-100 cursor-pointer"
           href="/dashboard/profile/personal"
         >
           <div className="flex items-center space-x-3">
-            <User className="w-5 h-5 text-gray-600" />
-            <span className="text-gray-900">Personal Information</span>
+            <LogOut className="w-8 h-8 text-red-600 text-lg bg-gray-300 rounded-full p-2" />
+            <span className="text-red-600">Logout</span>
           </div>
-          <ChevronRight className="w-5 h-5 text-gray-400" />
+          <ChevronRight className="w-5 h-5 text-red-600" />
         </Link>
-        
-        <div className="flex items-center justify-between py-4 border-b border-gray-100">
-          <div className="flex items-center space-x-3">
-            <div className="w-5 h-5 bg-gray-600 rounded flex items-center justify-center">
-              <div className="w-3 h-2 bg-white rounded-sm"></div>
-            </div>
-            <span className="text-gray-900">Link Bank Account</span>
-          </div>
-          <ChevronRight className="w-5 h-5 text-gray-400" />
-        </div>
-        
-        <div className="flex items-center justify-between py-4 border-b border-gray-100">
-          <div className="flex items-center space-x-3">
-            <div className="w-5 h-5 border-2 border-gray-600 rounded-full flex items-center justify-center">
-              <span className="text-xs text-gray-600">?</span>
-            </div>
-            <span className="text-gray-900">Help and Support</span>
-          </div>
-          <ChevronRight className="w-5 h-5 text-gray-400" />
-        </div>
-        
-        <div className="flex items-center justify-between py-4 border-b border-gray-100">
-          <div className="flex items-center space-x-3">
-            <div className="w-5 h-5 bg-gray-600 rounded flex items-center justify-center">
-              <div className="w-2 h-2 bg-white rounded-full"></div>
-            </div>
-            <span className="text-gray-900">Card Settings</span>
-          </div>
-          <ChevronRight className="w-5 h-5 text-gray-400" />
-        </div>
-        
-        <div className="flex items-center justify-between py-4 border-b border-gray-100">
-          <div className="flex items-center space-x-3">
-            <div className="w-5 h-5 border-2 border-gray-600 rounded-full flex items-center justify-center">
-              <span className="text-xs text-gray-600 font-bold">!</span>
-            </div>
-            <span className="text-gray-900">FAQ</span>
-          </div>
-          <ChevronRight className="w-5 h-5 text-gray-400" />
-        </div>
-        
-        <div className="flex items-center justify-between py-4">
-          <div className="flex items-center space-x-3">
-            <div className="w-5 h-5 flex items-center justify-center">
-              <span className="text-red-500 text-lg">↪</span>
-            </div>
-            <span className="text-red-500">Logout</span>
-          </div>
-          <ChevronRight className="w-5 h-5 text-gray-400" />
-        </div>
+      
+      <div className="mt-[20rem]"></div>
       </div>
 
     </div>
